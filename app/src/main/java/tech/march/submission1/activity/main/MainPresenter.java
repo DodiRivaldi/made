@@ -10,22 +10,23 @@ import tech.march.submission1.model.Movie;
 
 public class MainPresenter {
     MainView mainView;
-    private String[] dataTitle;
-    private String[] dataDesc;
+    private String[] dataTitle,dataDesc,dataArtist,dataDate;
     private TypedArray dataPoster;
     private Context context;
     private ArrayList<Movie> movieArrayList;
 
-    public MainPresenter(Context context, MainView mainView) {
+
+
+    public MainPresenter(Context context,MainView mainView) {
         this.mainView = mainView;
         this.context = context;
     }
 
     void getData() {
-        mainView.showLoading();
-
         dataTitle = context.getResources().getStringArray(R.array.movie_name);
         dataDesc = context.getResources().getStringArray(R.array.movie_desc);
+        dataArtist = context.getResources().getStringArray(R.array.movie_artist);
+        dataDate = context.getResources().getStringArray(R.array.movies_date);
         dataPoster = context.getResources().obtainTypedArray(R.array.movie_poster);
 
         movieArrayList = new ArrayList<>();
@@ -34,10 +35,14 @@ public class MainPresenter {
             Movie movie = new Movie();
             movie.setTitle(dataTitle[i]);
             movie.setDesc(dataDesc[i]);
+            movie.setDate(dataDate[i]);
+            movie.setArtist(dataArtist[i]);
             movie.setPoster(dataPoster.getResourceId(i, -1));
             movieArrayList.add(movie);
         }
 
         mainView.onGetResult(movieArrayList);
+
+
     }
 }

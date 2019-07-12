@@ -4,7 +4,12 @@
     android:layout_height="match_parent"
     android:padding="10dp">
 
-
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -14,8 +19,7 @@
                 android:id="@+id/img_movie_poster"
                 android:layout_width="100dp"
                 android:layout_height="150dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/poster_avengerinfinity" />
+                android:scaleType="fitXY" />
 
             <TextView
                 android:id="@+id/tv_movie_title"
@@ -24,16 +28,14 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="26dp"
                 android:layout_toEndOf="@+id/img_movie_poster"
-                android:padding="6dp"
                 android:layout_toRightOf="@+id/img_movie_poster"
-                android:text="Marvel Avengers"
-                android:textSize="14sp"
+                android:padding="6dp"
                 android:textColor="#000"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_description"
-                android:padding="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_movie_title"
@@ -43,6 +45,8 @@
                 android:layout_toRightOf="@id/img_movie_poster"
                 android:ellipsize="end"
                 android:maxLines="5"
-                android:text="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
+                android:padding="6dp" />
         </RelativeLayout>
-  </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

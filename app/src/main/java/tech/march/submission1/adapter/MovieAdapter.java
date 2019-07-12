@@ -54,7 +54,7 @@ public class MovieAdapter extends BaseAdapter {
 
 
         ViewHolder holder = new ViewHolder(view);
-        Movie movie = (Movie) movieArrayList.get(i);
+        Movie movie = (Movie) getItem(i);
         holder.bind(movie);
         return view;
     }
@@ -68,7 +68,7 @@ public class MovieAdapter extends BaseAdapter {
         ImageView imgPoster;
 
         ViewHolder(View view) {
-            ButterKnife.bind(view);
+            ButterKnife.bind(this, view);
         }
 
         void bind(Movie movie) {

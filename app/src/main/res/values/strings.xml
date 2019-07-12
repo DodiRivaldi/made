@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Submission1</string>
+    <string name="extra_data">extra_data</string>
     <string-array name="movie_name">
         <item>A Star Is Born</item>
         <item>Aquaman</item>
