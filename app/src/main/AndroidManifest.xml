@@ -10,15 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:label="MovieApp"
-            android:name=".activity.main.MainActivity">
+            android:name=".activity.main.MainActivity"
+            android:label="MovieApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.detail.DetailActivity"></activity>
+        <activity android:name=".activity.detail.DetailActivity" />
+        <activity
+            android:name=".activity.HomeActivity"
+            android:label="@string/title_activity_home"></activity>
     </application>
 
 </manifest>

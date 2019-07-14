@@ -1,39 +1,61 @@
 package tech.march.submission1.activity.main;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.view.MenuItem;
 
-import java.util.ArrayList;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import androidx.fragment.app.Fragment;
 import tech.march.submission1.R;
-import tech.march.submission1.activity.detail.DetailActivity;
-import tech.march.submission1.adapter.MovieAdapter;
-import tech.march.submission1.model.Movie;
+import tech.march.submission1.fragment.MoviesFragment;
+import tech.march.submission1.fragment.TvShowFragment;
 
-public class MainActivity extends AppCompatActivity implements MainView {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private MovieAdapter adapter;
+  /*  private MovieAdapter adapter;
 
     @BindView(R.id.lv_movie)
     ListView listView;
-    private MainPresenter presenter;
+    private MainPresenter presenter;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        init();
+        //     init();
+
+        loadFragment(new MoviesFragment());
+        // inisialisasi BottomNavigaionView
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bn_main);
+        // beri listener pada saat item/menu bottomnavigation terpilih
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+    }
+    private boolean loadFragment(Fragment fragment){
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fl_container, fragment)
+                    .commit();
+            return true;
+        }
+        return false;
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        Fragment fragment = null;
+        switch (menuItem.getItemId()){
+            case R.id.movies_menu:
+                fragment = new MoviesFragment();
+                break;
+            case R.id.tvshow_menu:
+                fragment = new TvShowFragment();
+                break;
+        }
+        return loadFragment(fragment);
+    }
+/*
     private void init() {
         ButterKnife.bind(this);
         presenter = new MainPresenter(this, this);
@@ -55,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 startActivity(intent);
             }
         });
-    }
+
+    }*/
 }
 
