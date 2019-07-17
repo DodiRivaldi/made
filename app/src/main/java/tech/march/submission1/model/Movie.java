@@ -9,6 +9,7 @@ public class Movie implements Parcelable {
     private String desc;
     private String date;
     private String artist;
+    private String rate;
 
     public Movie() {
     }
@@ -19,6 +20,7 @@ public class Movie implements Parcelable {
         desc = in.readString();
         date = in.readString();
         artist = in.readString();
+        rate = in.readString();
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -32,6 +34,14 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+
+    public String getRate() {
+        return rate;
+    }
+
+    public void setRate(String rate) {
+        this.rate = rate;
+    }
 
     public int getPoster() {
         return poster;
@@ -85,5 +95,6 @@ public class Movie implements Parcelable {
         parcel.writeString(desc);
         parcel.writeString(date);
         parcel.writeString(artist);
+        parcel.writeString(rate);
     }
 }

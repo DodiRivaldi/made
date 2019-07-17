@@ -46,6 +46,21 @@
         <item>2018</item>
         <item>2018</item>
     </string-array>
+    <string-array name="movies_rate">
+        <item>9.73</item>
+        <item>8.84</item>
+        <item>7.85</item>
+        <item>7.53</item>
+        <item>8.42</item>
+        <item>9.44</item>
+        <item>7.77</item>
+        <item>8.00</item>
+        <item>9.00</item>
+        <item>9.27</item>
+        <item>9.56</item>
+        <item>6.75</item>
+        <item>8.63</item>
+    </string-array>
     <string-array name="movie_artist">
         <item>Bradley Cooper</item>
         <item>Jason Momoa</item>
@@ -85,4 +100,6 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="movies">Movies</string>
+    <string name="tvshow">TV Show</string>
 </resources>

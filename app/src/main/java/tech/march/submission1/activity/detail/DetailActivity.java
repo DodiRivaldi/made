@@ -33,14 +33,12 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         init();
     }
 
     private void init() {
         ButterKnife.bind(this);
         Movie movie = getIntent().getParcelableExtra(EXTRA_DATA);
-        getSupportActionBar().setTitle(movie.getTitle());
         tvTitle.setText(movie.getTitle());
         tvDate.setText(movie.getDate());
         tvArtist.setText(movie.getArtist());
@@ -48,14 +46,5 @@ public class DetailActivity extends AppCompatActivity {
         Picasso.get().load(movie.getPoster()).into(imgPoster);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 }
