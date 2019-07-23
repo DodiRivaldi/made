@@ -1,4 +1,4 @@
-package tech.march.submission1.activity.main;
+package tech.march.submission1.fragment.movies;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import tech.march.submission1.R;
 import tech.march.submission1.model.Movie;
 
-public class MainPresenter {
-    MainView mainView;
+public class MoviesPresenter {
+    MoviesView moviesView;
     private String[] dataTitle,dataDesc,dataArtist,dataDate,dataRate;
     private TypedArray dataPoster;
     private Context context;
@@ -17,8 +17,8 @@ public class MainPresenter {
 
 
 
-    public MainPresenter(Context context,MainView mainView) {
-        this.mainView = mainView;
+    public MoviesPresenter(Context context, MoviesView moviesView) {
+        this.moviesView = moviesView;
         this.context = context;
     }
 
@@ -43,7 +43,7 @@ public class MainPresenter {
             movieArrayList.add(movie);
         }
 
-        mainView.onGetResult(movieArrayList);
+        moviesView.onGetResult(movieArrayList);
 
 
     }

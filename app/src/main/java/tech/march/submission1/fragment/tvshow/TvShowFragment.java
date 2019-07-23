@@ -1,4 +1,4 @@
-package tech.march.submission1.fragment;
+package tech.march.submission1.fragment.tvshow;
 
 
 import android.content.Intent;
@@ -16,22 +16,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.march.submission1.R;
 import tech.march.submission1.activity.detail.DetailActivity;
-import tech.march.submission1.activity.main.MainPresenter;
-import tech.march.submission1.activity.main.MainView;
 import tech.march.submission1.adapter.MovieAdapter;
+import tech.march.submission1.adapter.TvShowAdapter;
+import tech.march.submission1.fragment.movies.MoviesPresenter;
+import tech.march.submission1.fragment.movies.MoviesView;
 import tech.march.submission1.model.Movie;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MoviesFragment extends Fragment implements MainView {
-    @BindView(R.id.rv_movies)
-    RecyclerView rvMovies;
+public class TvShowFragment extends Fragment implements MoviesView {
 
-    private MovieAdapter adapter;
-    private MainPresenter presenter;
+    @BindView(R.id.rv_tv)
+    RecyclerView rvTv;
 
-    public MoviesFragment() {
+    private TvShowAdapter adapter;
+    private MoviesPresenter presenter;
+
+    public TvShowFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +41,10 @@ public class MoviesFragment extends Fragment implements MainView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_movies, container, false);
+        View view = inflater.inflate(R.layout.fragment_tv_show, container, false);
         ButterKnife.bind(this, view);
-        rvMovies.setHasFixedSize(true);
-        presenter = new MainPresenter(getContext(), this);
+        rvTv.setHasFixedSize(true);
+        presenter = new MoviesPresenter(getContext(), this);
 
         presenter.getData();
         return view;
@@ -51,8 +52,8 @@ public class MoviesFragment extends Fragment implements MainView {
 
     @Override
     public void onGetResult(ArrayList<Movie> movieArrayList) {
-        rvMovies.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MovieAdapter(movieArrayList, new MovieAdapter.OnItemClickListener() {
+        rvTv.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new TvShowAdapter(movieArrayList, new TvShowAdapter.OnItemClickListener() {
             @Override
             public void onClick(Movie item) {
                 Intent intent = new Intent(getContext(), DetailActivity.class);
@@ -60,6 +61,6 @@ public class MoviesFragment extends Fragment implements MainView {
                 startActivity(intent);
             }
         });
-        rvMovies.setAdapter(adapter);
+        rvTv.setAdapter(adapter);
     }
 }

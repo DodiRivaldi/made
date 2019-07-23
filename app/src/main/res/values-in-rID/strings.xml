@@ -93,12 +93,12 @@
     </array>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Fragment kosong</string>
     <string name="title_activity_home">HomeActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="movies">Movies</string>
-    <string name="tvshow">TV Show</string>
-    <string name="change_language_settings">Change languange settings</string>
+    <string name="title_home">Beranda</string>
+    <string name="title_dashboard">Utama</string>
+    <string name="title_notifications">Notifikasi</string>
+    <string name="movies">Film</string>
+    <string name="tvshow">Acara TV</string>
+    <string name="change_language_settings">Ganti bahasa</string>
 </resources>
