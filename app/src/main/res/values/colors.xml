@@ -9,6 +9,7 @@
     <color name="softGray">#EEF0F6</color>
 
     <color name="textColorTitle">#585A5D</color>
+    <color name="colorGrey">#585A5D</color>
     <color name="textColor">#ADADB8</color>
 
     <color name="darkOverlaySoft">#40000000</color>

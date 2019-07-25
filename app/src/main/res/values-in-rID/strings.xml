@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MADE</string>
     <string name="extra_data">extra_data</string>
+    <string name="extra_data_tv">extra_data_tv</string>
     <string-array name="movie_name">
         <item>A Star Is Born</item>
         <item>Aquaman</item>
@@ -101,4 +102,6 @@
     <string name="movies">Film</string>
     <string name="tvshow">Acara TV</string>
     <string name="change_language_settings">Ganti bahasa</string>
+    <string name="waiting">Memuat data...</string>
+
 </resources>

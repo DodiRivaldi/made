@@ -8,33 +8,37 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.facebook.shimmer.ShimmerFrameLayout;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.march.submission1.R;
-import tech.march.submission1.activity.detail.DetailActivity;
-import tech.march.submission1.adapter.MovieAdapter;
 import tech.march.submission1.adapter.TvShowAdapter;
-import tech.march.submission1.fragment.movies.MoviesPresenter;
-import tech.march.submission1.fragment.movies.MoviesView;
-import tech.march.submission1.model.Movie;
+import tech.march.submission1.api.ApiRequest;
+import tech.march.submission1.api.model.TvShow;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TvShowFragment extends Fragment implements MoviesView {
+public class TvShowFragment extends Fragment {
 
     @BindView(R.id.rv_tv)
     RecyclerView rvTv;
+    @BindView(R.id.parentShimmerLayout)
+    ShimmerFrameLayout shimmerFrameLayout;
 
     private TvShowAdapter adapter;
-    private MoviesPresenter presenter;
+    private ApiRequest request;
 
     public TvShowFragment() {
-        // Required empty public constructor
     }
 
 
@@ -44,23 +48,27 @@ public class TvShowFragment extends Fragment implements MoviesView {
         View view = inflater.inflate(R.layout.fragment_tv_show, container, false);
         ButterKnife.bind(this, view);
         rvTv.setHasFixedSize(true);
-        presenter = new MoviesPresenter(getContext(), this);
-
-        presenter.getData();
+        adapter = new TvShowAdapter();
+        request = ViewModelProviders.of(this).get(ApiRequest.class);
+        shimmerFrameLayout.startShimmerAnimation();
+        request.getTvShows().observe(this, getTvShow);
+        request.setTvShows("EXTRA_TV");
+        rvTv.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        rvTv.setAdapter(adapter);
         return view;
     }
 
-    @Override
-    public void onGetResult(ArrayList<Movie> movieArrayList) {
-        rvTv.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new TvShowAdapter(movieArrayList, new TvShowAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(Movie item) {
-                Intent intent = new Intent(getContext(), DetailActivity.class);
-                intent.putExtra(DetailActivity.EXTRA_DATA, item);
-                startActivity(intent);
+    private Observer<ArrayList<TvShow>> getTvShow = new Observer<ArrayList<TvShow>>() {
+        @Override
+        public void onChanged(ArrayList<TvShow> tvShows) {
+            if (tvShows != null) {
+                shimmerFrameLayout.stopShimmerAnimation();
+                adapter.setupData(tvShows);
+                shimmerFrameLayout.setVisibility(View.GONE);
             }
-        });
-        rvTv.setAdapter(adapter);
-    }
+
+            shimmerFrameLayout.setVisibility(View.GONE);
+        }
+    };
+
 }
