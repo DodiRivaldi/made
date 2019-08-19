@@ -74,17 +74,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         @Override
         public void onClick(View v) {
-            int position = getAdapterPosition();
+         /*   int position = getAdapterPosition();
             Movie movie = movies.get(position);
 //
             movie.setTitle(movie.getTitle());
             movie.setOverview(movie.getOverview());
             movie.setPoster_path(movie.getPoster_path());
             movie.setRelease_date(movie.getRelease_date());
-            movie.setVoteAverage(movie.getVoteAverage());
+            movie.setVoteAverage(movie.getVoteAverage());*/
 
             Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
-            intent.putExtra(DetailActivity.EXTRA_DATA, movie);
+            intent.putExtra(DetailActivity.EXTRA_DATA, movies.get(getAdapterPosition()));
             intent.putExtra(String.valueOf(R.string.type),String.valueOf(R.string.movie));
             itemView.getContext().startActivity(intent);
         }

@@ -1,21 +1,10 @@
 package tech.march.submission1.api;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+
+import tech.march.submission1.BuildConfig;
 
 public class ApiHelper {
-    public static final String BASE_URL = "https://api.themoviedb.org/";
-    public static final String APIKEY = "0b8306d7d4e46c13da26789e18038dad";
-    public static final String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/";
-    public static Retrofit retrofit;
-
-    public static Retrofit getRetrofitClient() {
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return retrofit;
-    }
+    public static final String BASE_URL = BuildConfig.BASE_URL;
+    public static final String APIKEY = BuildConfig.API_KEY;
+    public static final String BASE_IMAGE_URL = BuildConfig.BASE_URL_IMAGE;
 }

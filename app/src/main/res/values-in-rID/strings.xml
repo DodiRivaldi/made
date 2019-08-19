@@ -2,6 +2,7 @@
     <string name="app_name">MADE</string>
     <string name="extra_data">extra_data</string>
     <string name="extra_data_tv">extra_data_tv</string>
+    <string name="favorite">Favorit</string>
     <string-array name="movie_name">
         <item>A Star Is Born</item>
         <item>Aquaman</item>

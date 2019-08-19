@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import org.json.JSONObject;
 
 public class TvShow implements Parcelable {
+    private String id;
     private String name;
     private String popularity;
     private String voteAverage;
@@ -14,6 +15,7 @@ public class TvShow implements Parcelable {
     private String first_air_date;
 
     protected TvShow(Parcel in) {
+        id = in.readString();
         name = in.readString();
         popularity = in.readString();
         voteAverage = in.readString();
@@ -33,6 +35,14 @@ public class TvShow implements Parcelable {
             return new TvShow[size];
         }
     };
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -89,6 +99,7 @@ public class TvShow implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
         parcel.writeString(name);
         parcel.writeString(popularity);
         parcel.writeString(voteAverage);
@@ -99,6 +110,7 @@ public class TvShow implements Parcelable {
 
     public TvShow(JSONObject object) {
         try {
+            String id = object.getString("id");
             String name = object.getString("name");
             String popularity = object.getString("popularity");
             String voteAverage = object.getString("vote_average");
@@ -106,6 +118,7 @@ public class TvShow implements Parcelable {
             String overview = object.getString("overview");
             String first_air_date = object.getString("first_air_date");
 
+            this.id = id;
             this.voteAverage = voteAverage;
             this.name = name;
             this.popularity = popularity;

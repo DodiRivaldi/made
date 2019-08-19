@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'realm-android'
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -10,6 +10,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        buildConfigField("String", "API_KEY", '"0b8306d7d4e46c13da26789e18038dad"')
+        buildConfigField("String", "BASE_URL", '"https://api.themoviedb.org/"')
+        buildConfigField("String", "BASE_URL_IMAGE", '"https://image.tmdb.org/t/p/"')
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -20,6 +23,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    dataBinding {
+        enabled = true
     }
 }
 

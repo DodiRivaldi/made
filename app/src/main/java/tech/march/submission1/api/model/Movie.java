@@ -3,11 +3,11 @@ package tech.march.submission1.api.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
 public class Movie implements Parcelable {
+    private String id;
     private String voteAverage;
     private String title;
     private String popularity;
@@ -16,6 +16,7 @@ public class Movie implements Parcelable {
     private String release_date;
 
     protected Movie(Parcel in) {
+        id = in.readString();
         voteAverage = in.readString();
         title = in.readString();
         popularity = in.readString();
@@ -35,6 +36,14 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getVoteAverage() {
         return voteAverage;
@@ -91,6 +100,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
         parcel.writeString(voteAverage);
         parcel.writeString(title);
         parcel.writeString(popularity);
@@ -101,6 +111,7 @@ public class Movie implements Parcelable {
 
     public Movie(JSONObject object) {
         try {
+            String id = object.getString("id");
             String voteAverage = object.getString("vote_average");
             String title = object.getString("title");
             String popularity = object.getString("popularity");
@@ -108,6 +119,7 @@ public class Movie implements Parcelable {
             String overview = object.getString("overview");
             String release_date = object.getString("release_date");
 
+            this.id = id;
             this.voteAverage = voteAverage;
             this.title = title;
             this.popularity = popularity;

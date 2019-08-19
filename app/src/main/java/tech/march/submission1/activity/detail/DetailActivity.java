@@ -3,6 +3,8 @@ package tech.march.submission1.activity.detail;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ import tech.march.submission1.api.ApiHelper;
 import tech.march.submission1.api.ApiRequest;
 import tech.march.submission1.api.model.Movie;
 import tech.march.submission1.api.model.TvShow;
+import tech.march.submission1.database.helper.RealmHelper;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -31,12 +34,15 @@ public class DetailActivity extends AppCompatActivity {
     TextView tvArtist;
     @BindView(R.id.tv_overview)
     TextView tvOverView;
+    @BindView(R.id.btn_fav)
+    Button btnFav;
 
 
     public static final String EXTRA_DATA = String.valueOf(R.string.extra_data);
     public static final String EXTRA_DATA_TV = String.valueOf(R.string.extra_data_tv);
     private ProgressDialog dialog;
     private ApiRequest request;
+    private RealmHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +52,13 @@ public class DetailActivity extends AppCompatActivity {
 
         init();
 
+
     }
 
     private void init() {
         ButterKnife.bind(this);
         dialog = new ProgressDialog(this);
+        helper = new RealmHelper(this);
         final Handler handler = new Handler();
         dialog.setMessage(getString(R.string.waiting));
         dialog.setCancelable(false);
@@ -73,13 +81,18 @@ public class DetailActivity extends AppCompatActivity {
                             tvDate.setText(item.getFirst_air_date());
                             tvArtist.setText(item.getVoteAverage());
                             tvOverView.setText(item.getOverview());
-                            Picasso.get().load(ApiHelper.BASE_IMAGE_URL+"original" + item.getPoster_path()).into(imgPoster);
+                            Picasso.get().load(ApiHelper.BASE_IMAGE_URL + "original" + item.getPoster_path()).into(imgPoster);
                             dialog.dismiss();
+
+                            btnFav.setOnClickListener((View v) -> {
+                                helper.addFavorite(item.getId(), item.getPoster_path(), item.getName(),
+                                        item.getPopularity(), item.getFirst_air_date(), item.getOverview());
+                            });
                         }
                     });
                 }
             }).start();
-        } else if (type.equals(String.valueOf(R.string.movie))){
+        } else if (type.equals(String.valueOf(R.string.movie))) {
             new Thread(new Runnable() {
                 public void run() {
                     try {
@@ -94,8 +107,12 @@ public class DetailActivity extends AppCompatActivity {
                             tvDate.setText(movie.getRelease_date());
                             tvArtist.setText(movie.getVoteAverage());
                             tvOverView.setText(movie.getOverview());
-                            Picasso.get().load(ApiHelper.BASE_IMAGE_URL+"original" + movie.getPoster_path()).into(imgPoster);
+                            Picasso.get().load(ApiHelper.BASE_IMAGE_URL + "original" + movie.getPoster_path()).into(imgPoster);
                             dialog.dismiss();
+                            btnFav.setOnClickListener((View v) -> {
+                                helper.addFavorite(movie.getId(), movie.getPoster_path(), movie.getTitle(),
+                                        movie.getPopularity(), movie.getRelease_date(), movie.getOverview());
+                            });
                         }
                     });
                 }
