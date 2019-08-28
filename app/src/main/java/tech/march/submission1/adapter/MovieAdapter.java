@@ -1,11 +1,13 @@
 package tech.march.submission1.adapter;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -69,23 +71,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             Picasso.get().load(ApiHelper.BASE_IMAGE_URL+"w780" + movie.getPoster_path()).into(imgPoster);
             tvTime.setText(movie.getRelease_date());
             tvTitle.setText(movie.getTitle());
-            tvType.setText(movie.getVoteAverage());
+            tvType.setText(movie.getVoteAverage()+"-"+movie.getId());
         }
 
         @Override
         public void onClick(View v) {
-         /*   int position = getAdapterPosition();
-            Movie movie = movies.get(position);
-//
-            movie.setTitle(movie.getTitle());
-            movie.setOverview(movie.getOverview());
-            movie.setPoster_path(movie.getPoster_path());
-            movie.setRelease_date(movie.getRelease_date());
-            movie.setVoteAverage(movie.getVoteAverage());*/
-
             Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
             intent.putExtra(DetailActivity.EXTRA_DATA, movies.get(getAdapterPosition()));
-            intent.putExtra(String.valueOf(R.string.type),String.valueOf(R.string.movie));
+            intent.putExtra("type","movie");
             itemView.getContext().startActivity(intent);
         }
     }

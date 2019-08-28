@@ -75,7 +75,7 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.TvViewHold
         public void onClick(View v) {
             Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
             intent.putExtra(DetailActivity.EXTRA_DATA_TV, tvShows.get(getAdapterPosition()));
-            intent.putExtra(String.valueOf(R.string.type),String.valueOf(R.string.tv));
+            intent.putExtra("type","tv");
             itemView.getContext().startActivity(intent);
         }
     }

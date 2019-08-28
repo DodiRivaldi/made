@@ -59,6 +59,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
         TextView tvTime;
         @BindView(R.id.tv_rate)
         TextView tvRate;
+        String ids;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,13 +72,15 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
             tvTime.setText(item.getDate());
             tvTitle.setText(item.getTitle());
             tvType.setText(item.getArtist());
+            ids = item.getID();
         }
 
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
-            intent.putExtra(DetailActivity.EXTRA_DATA_TV, arrayList.get(getAdapterPosition()));
-            intent.putExtra(String.valueOf(R.string.type), String.valueOf(R.string.tv));
+            //   intent.putExtra(DetailActivity.EXTRA_DATA_FAV, arrayList.get(getAdapterPosition()));
+            intent.putExtra("type", "fav");
+            intent.putExtra("id", ids);
             itemView.getContext().startActivity(intent);
         }
     }

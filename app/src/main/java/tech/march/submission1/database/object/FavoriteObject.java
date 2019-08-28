@@ -11,6 +11,15 @@ public class FavoriteObject extends RealmObject {
     private String artist;
     private String date;
     private String overview;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getID() {
         return ID;

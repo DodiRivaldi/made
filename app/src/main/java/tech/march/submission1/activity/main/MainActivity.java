@@ -12,11 +12,12 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.march.submission1.R;
+import tech.march.submission1.activity.favorite.FavoriteActivity;
 import tech.march.submission1.adapter.ViewPagerAdapter;
-import tech.march.submission1.fragment.FavoriteFragment;
 import tech.march.submission1.fragment.movies.MoviesFragment;
 import tech.march.submission1.fragment.tvshow.TvShowFragment;
 
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MoviesFragment(), getString(R.string.movies));
         adapter.addFragment(new TvShowFragment(), getString(R.string.tvshow));
-        adapter.addFragment(new FavoriteFragment(),getString(R.string.favorite));
         viewPager.setAdapter(adapter);
     }
 
@@ -61,9 +61,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_change_settings){
+        if (item.getItemId() == R.id.action_change_settings) {
             Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
             startActivity(mIntent);
+        } else if (item.getItemId() == R.id.action_fav) {
+            Intent intent = new Intent(MainActivity.this, FavoriteActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,6 +1,8 @@
 package tech.march.submission1.database.helper;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
+import tech.march.submission1.R;
+import tech.march.submission1.activity.main.MainActivity;
 import tech.march.submission1.api.model.Movie;
 import tech.march.submission1.database.model.Favorite;
 import tech.march.submission1.database.object.FavoriteObject;
@@ -31,7 +35,7 @@ public class RealmHelper extends ViewModel {
         this.context = context;
     }
 
-    public void addFavorite(String ID, String image, String title, String artist, String date, String overview) {
+    public void addFavorite(String ID, String image, String title, String artist, String date, String overview,String type) {
 
         FavoriteObject object = new FavoriteObject();
 
@@ -41,6 +45,7 @@ public class RealmHelper extends ViewModel {
         object.setArtist(artist);
         object.setDate(date);
         object.setOverview(overview);
+        object.setType(type);
 
         if (realm.isInTransaction()) {
             realm.copyToRealm(object);
@@ -51,18 +56,20 @@ public class RealmHelper extends ViewModel {
             realm.commitTransaction();
         }
 
-        Toast.makeText(context, "Sukses", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, R.string.saved, Toast.LENGTH_SHORT).show();
+        context.startActivity(new Intent(context, MainActivity.class));
     }
 
-    public ArrayList<Favorite> getAllData() {
+    public ArrayList<Favorite> getAllData(String type) {
         ArrayList<Favorite> data = new ArrayList<>();
 
-        realmResult = realm.where(FavoriteObject.class).findAll();
+        realmResult = realm.where(FavoriteObject.class).equalTo("type", type).findAll();
+
         realmResult.sort("ID", Sort.ASCENDING);
         if (realmResult.size() > 0) {
 
             for (int i = 0; i < realmResult.size(); i++) {
-                String ID, image, title, artist, date, overview;
+                String ID, image, title, artist, date, overview, Stype;
 
                 ID = realmResult.get(i).getID();
                 image = realmResult.get(i).getImage();
@@ -70,8 +77,9 @@ public class RealmHelper extends ViewModel {
                 artist = realmResult.get(i).getArtist();
                 date = realmResult.get(i).getArtist();
                 overview = realmResult.get(i).getOverview();
+                Stype = realmResult.get(i).getType();
 
-                data.add(new Favorite(ID, image, title, artist, date, overview));
+                data.add(new Favorite(ID, image, title, artist, date, overview, Stype));
             }
             favorite.postValue(data);
 
@@ -91,7 +99,7 @@ public class RealmHelper extends ViewModel {
         if (realmResult.size() > 0) {
 
             for (int i = 0; i < realmResult.size(); i++) {
-                String ID, image, title, artist, date, overview;
+                String ID, image, title, artist, date, overview,type;
 
                 ID = realmResult.get(i).getID();
                 image = realmResult.get(i).getImage();
@@ -99,8 +107,9 @@ public class RealmHelper extends ViewModel {
                 artist = realmResult.get(i).getArtist();
                 date = realmResult.get(i).getArtist();
                 overview = realmResult.get(i).getOverview();
+                type = realmResult.get(i).getType();
 
-                data.add(new Favorite(ID, image, title, artist, date, overview));
+                data.add(new Favorite(ID, image, title, artist, date, overview,type));
             }
             favorite.postValue(data);
 
@@ -112,7 +121,7 @@ public class RealmHelper extends ViewModel {
         return data;
     }
 
-    public void deleteStrand(String ID) {
+    public void deleteData(String ID) {
         try {
             RealmResults<FavoriteObject> realmResults = realm.where(FavoriteObject.class).equalTo("ID", ID).findAll();
             if (realm.isInTransaction()) {

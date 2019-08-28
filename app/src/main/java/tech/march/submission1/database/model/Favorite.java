@@ -10,14 +10,24 @@ public class Favorite implements Parcelable {
     private String artist;
     private String date;
     private String overview;
+    private String type;
 
-    public Favorite(String ID, String image, String title, String artist, String date, String overview) {
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Favorite(String ID, String image, String title, String artist, String date, String overview, String type) {
         this.ID = ID;
         this.image = image;
         this.title = title;
         this.artist = artist;
         this.date = date;
         this.overview = overview;
+        this.type = type;
     }
 
     protected Favorite(Parcel in) {
@@ -102,5 +112,6 @@ public class Favorite implements Parcelable {
         parcel.writeString(artist);
         parcel.writeString(date);
         parcel.writeString(overview);
+        parcel.writeString(type);
     }
 }
