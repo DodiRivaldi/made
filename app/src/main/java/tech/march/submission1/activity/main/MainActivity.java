@@ -2,33 +2,33 @@ package tech.march.submission1.activity.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 
-import java.util.ArrayList;
+import com.google.android.material.tabs.TabLayout;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.march.submission1.R;
-import tech.march.submission1.activity.detail.DetailActivity;
-import tech.march.submission1.adapter.MovieAdapter;
-import tech.march.submission1.fragment.MoviesFragment;
-import tech.march.submission1.fragment.TvShowFragment;
-import tech.march.submission1.model.Movie;
+import tech.march.submission1.activity.favorite.FavoriteActivity;
+import tech.march.submission1.adapter.ViewPagerAdapter;
+import tech.march.submission1.fragment.movies.MoviesFragment;
+import tech.march.submission1.fragment.tvshow.TvShowFragment;
 
-public class MainActivity extends AppCompatActivity implements MainView {
+public class MainActivity extends AppCompatActivity {
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
+    @BindView(R.id.tabs)
+    TabLayout tabLayout;
 
-    private MovieAdapter adapter;
-
-    @BindView(R.id.lv_movie)
-    ListView listView;
-    private MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,26 +40,35 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     private void init() {
         ButterKnife.bind(this);
-        presenter = new MainPresenter(this, this);
-        presenter.getData();
+        setSupportActionBar(toolbar);
+        setupViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new MoviesFragment(), getString(R.string.movies));
+        adapter.addFragment(new TvShowFragment(), getString(R.string.tvshow));
+        viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
 
     @Override
-    public void onGetResult(ArrayList<Movie> movieArrayList) {
-        adapter = new MovieAdapter(this);
-        adapter.setMovieArrayList(movieArrayList);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                intent.putExtra(DetailActivity.EXTRA_DATA, movieArrayList.get(i));
-                startActivity(intent);
-            }
-        });
-
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_change_settings) {
+            Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+            startActivity(mIntent);
+        } else if (item.getItemId() == R.id.action_fav) {
+            Intent intent = new Intent(MainActivity.this, FavoriteActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 

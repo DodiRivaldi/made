@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">MADE</string>
+    <string name="extra_data">extra_data</string>
+    <string name="extra_data_tv">extra_data_tv</string>
+    <string name="favorite">Favorit</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="movies">Film</string>
+    <string name="tvshow">Acara TV</string>
+    <string name="change_language_settings">Ganti bahasa</string>
+    <string name="waiting">Memuat data...</string>
+    <string name="hapus">Hapus</string>
+    <string name="saved">Berhasil disimpan</string>
+    <string name="deletedata">Data dihapus</string>
+</resources>
