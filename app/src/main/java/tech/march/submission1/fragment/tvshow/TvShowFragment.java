@@ -17,10 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.march.submission1.R;
+import tech.march.submission1.activity.search.SearchActivity;
 import tech.march.submission1.adapter.TvShowAdapter;
 import tech.march.submission1.api.ApiRequest;
 import tech.march.submission1.api.model.TvShow;
@@ -34,7 +36,8 @@ public class TvShowFragment extends Fragment {
     RecyclerView rvTv;
     @BindView(R.id.parentShimmerLayout)
     ShimmerFrameLayout shimmerFrameLayout;
-
+    @BindView(R.id.fab_tv)
+    FloatingActionButton fab;
     private TvShowAdapter adapter;
     private ApiRequest request;
 
@@ -55,6 +58,14 @@ public class TvShowFragment extends Fragment {
         request.setTvShows("EXTRA_TV");
         rvTv.setLayoutManager(new LinearLayoutManager(this.getContext()));
         rvTv.setAdapter(adapter);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), SearchActivity.class);
+                intent.putExtra("status", "tv");
+                startActivity(intent);
+            }
+        });
         return view;
     }
 

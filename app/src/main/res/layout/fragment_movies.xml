@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.movies.MoviesFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_movies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_movie"></androidx.recyclerview.widget.RecyclerView>
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/parentShimmerLayout"
@@ -25,10 +31,13 @@
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_movies"
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:id="@+id/fab_movie"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_search"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/item_movie"></androidx.recyclerview.widget.RecyclerView>
-
-</FrameLayout>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

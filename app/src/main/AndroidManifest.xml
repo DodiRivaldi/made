@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme.Base">
-        <activity android:name=".activity.search.SearchActivity"></activity>
+        <activity android:name=".activity.search.SearchActivity" />
+
         <activity
             android:name=".activity.favorite.FavoriteActivity"
             android:label="@string/favorite" />
@@ -24,6 +25,19 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.detail.DetailActivity" />
+        <receiver android:name=".widget.FavoriteWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/favorite_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".widget.StackWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

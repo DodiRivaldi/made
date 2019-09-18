@@ -96,4 +96,71 @@ public class ApiRequest extends ViewModel {
         return tvShows;
     }
 
+    public void setMoviesSearch(final String extra,String param) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        final ArrayList<Movie> listItems = new ArrayList<>();
+
+        String url = ApiHelper.BASE_URL + "3/search/movie?api_key=" + ApiHelper.APIKEY + "&language=en-US&query="+param;
+
+        client.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    String result = new String(responseBody);
+                    JSONObject responseObject = new JSONObject(result);
+                    JSONArray list = responseObject.getJSONArray("results");
+
+                    for (int i = 0; i < list.length(); i++) {
+                        JSONObject weather = list.getJSONObject(i);
+                        Movie movieItems = new Movie(weather);
+
+                        Log.d("SUKSES : ", movieItems.getTitle());
+                        listItems.add(movieItems);
+                    }
+                    movies.postValue(listItems);
+                } catch (Exception e) {
+                    Log.d("Exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.d("onFailure", error.getMessage());
+            }
+        });
+    }
+    public void setTvShowsSearch(final String extra,String param) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        final ArrayList<TvShow> items = new ArrayList<>();
+
+        String url = ApiHelper.BASE_URL + "3/search/tv?api_key=" + ApiHelper.APIKEY + "&language=en-US&query="+param;
+
+        client.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    String result = new String(responseBody);
+                    JSONObject responseObject = new JSONObject(result);
+                    JSONArray list = responseObject.getJSONArray("results");
+
+                    for (int i = 0; i < list.length(); i++) {
+                        JSONObject weather = list.getJSONObject(i);
+                        TvShow tvShow = new TvShow(weather);
+                        items.add(tvShow);
+                    }
+                    tvShows.postValue(items);
+                } catch (Exception e) {
+                    Log.d("Exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.d("onFailure", error.getMessage());
+            }
+        });
+    }
+
+
+
 }

@@ -13,4 +13,8 @@
     <string name="hapus">Delete</string>
     <string name="deletedata">Deleted</string>
     <string name="saved">Saved</string>
+    <string name="search">Search</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="empty_text">Empty</string>
 </resources>

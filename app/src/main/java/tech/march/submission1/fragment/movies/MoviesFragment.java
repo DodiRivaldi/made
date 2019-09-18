@@ -1,6 +1,7 @@
 package tech.march.submission1.fragment.movies;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.march.submission1.R;
+import tech.march.submission1.activity.search.SearchActivity;
 import tech.march.submission1.adapter.MovieAdapter;
 import tech.march.submission1.api.ApiRequest;
 import tech.march.submission1.api.model.Movie;
@@ -31,6 +34,8 @@ public class MoviesFragment extends Fragment {
     RecyclerView rvMovies;
     @BindView(R.id.parentShimmerLayout)
     ShimmerFrameLayout shimmerFrameLayout;
+    @BindView(R.id.fab_movie)
+    FloatingActionButton fab;
 
     private MovieAdapter adapter;
     private ApiRequest request;
@@ -52,6 +57,15 @@ public class MoviesFragment extends Fragment {
         request.setMovies("EXTRA_MOVIE");
         rvMovies.setLayoutManager(new LinearLayoutManager(this.getContext()));
         rvMovies.setAdapter(adapter);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), SearchActivity.class);
+                intent.putExtra("status", "movie");
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

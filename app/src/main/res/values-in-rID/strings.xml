@@ -11,5 +11,9 @@
     <string name="waiting">Memuat data...</string>
     <string name="hapus">Hapus</string>
     <string name="saved">Berhasil disimpan</string>
+    <string name="search">Cari</string>
     <string name="deletedata">Data dihapus</string>
+    <string name="appwidget_text">Contoh</string>
+    <string name="add_widget">Tambah widget</string>
+    <string name="empty_text">Kosong</string>
 </resources>

@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#2c393f</color>
     <color name="colorAccent">#00c7c7</color>
 
-    <color name="colorGrey">#585A5D</color>
+    <color name="colorGrey">#CACACA</color>
 
     <color name="white">@android:color/white</color>
 </resources>
