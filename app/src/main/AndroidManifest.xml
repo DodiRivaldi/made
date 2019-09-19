@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.detail.DetailActivity" />
+
         <receiver android:name=".widget.FavoriteWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

@@ -13,9 +13,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.march.submission1.R;
 import tech.march.submission1.adapter.ViewPagerAdapter;
-import tech.march.submission1.fragment.FavoriteMovieFragment;
-import tech.march.submission1.fragment.FavoriteTvFragment;
-import tech.march.submission1.fragment.tvshow.TvShowFragment;
+import tech.march.submission1.fragment.movies.FavoriteMovieFragment;
+import tech.march.submission1.fragment.tvshow.FavoriteTvFragment;
 
 public class FavoriteActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)

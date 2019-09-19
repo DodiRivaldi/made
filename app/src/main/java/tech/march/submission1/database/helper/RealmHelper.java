@@ -90,6 +90,36 @@ public class RealmHelper extends ViewModel {
 
         return data;
     }
+    public ArrayList<Favorite> getAllDataWidget() {
+        ArrayList<Favorite> data = new ArrayList<>();
+
+        realmResult = realm.where(FavoriteObject.class).findAll();
+
+        realmResult.sort("ID", Sort.ASCENDING);
+        if (realmResult.size() > 0) {
+
+            for (int i = 0; i < realmResult.size(); i++) {
+                String ID, image, title, artist, date, overview, Stype;
+
+                ID = realmResult.get(i).getID();
+                image = realmResult.get(i).getImage();
+                title = realmResult.get(i).getTitle();
+                artist = realmResult.get(i).getArtist();
+                date = realmResult.get(i).getArtist();
+                overview = realmResult.get(i).getOverview();
+                Stype = realmResult.get(i).getType();
+
+                data.add(new Favorite(ID, image, title, artist, date, overview, Stype));
+            }
+            favorite.postValue(data);
+
+
+        } else {
+            //   showToast("Tidak ada data tersimpan");
+        }
+
+        return data;
+    }
 
     public ArrayList<Favorite> checkData(String id) {
         ArrayList<Favorite> data = new ArrayList<>();

@@ -1,22 +1,16 @@
-package tech.march.submission1.fragment;
+package tech.march.submission1.fragment.tvshow;
 
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.TextView;
-
-import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 
@@ -24,17 +18,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.march.submission1.R;
 import tech.march.submission1.adapter.FavoriteAdapter;
-import tech.march.submission1.adapter.TvShowAdapter;
-import tech.march.submission1.api.ApiRequest;
-import tech.march.submission1.api.model.TvShow;
 import tech.march.submission1.database.helper.RealmHelper;
 import tech.march.submission1.database.model.Favorite;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FavoriteMovieFragment extends Fragment {
-
+public class FavoriteTvFragment extends Fragment {
     private ArrayList<Favorite> arrayList;
     @BindView(R.id.rv_favorite)
     RecyclerView rvFav;
@@ -43,7 +33,7 @@ public class FavoriteMovieFragment extends Fragment {
     private RealmHelper helper;
 
 
-    public FavoriteMovieFragment() {
+    public FavoriteTvFragment() {
         // Required empty public constructor
     }
 
@@ -52,7 +42,7 @@ public class FavoriteMovieFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_favorite, container, false);
+        View view = inflater.inflate(R.layout.fragment_favorite_tv, container, false);
         ButterKnife.bind(this, view);
         adapter = new FavoriteAdapter();
         helper = new RealmHelper(getContext());
@@ -70,7 +60,7 @@ public class FavoriteMovieFragment extends Fragment {
 
     private void loadData() {
         try {
-            arrayList = helper.getAllData("movie");
+            arrayList = helper.getAllData("tv");
             adapter.setupData(arrayList);
 
         } catch (Exception e) {
@@ -92,5 +82,4 @@ public class FavoriteMovieFragment extends Fragment {
             //  shimmerFrameLayout.setVisibility(View.GONE);
         }
     };
-
 }

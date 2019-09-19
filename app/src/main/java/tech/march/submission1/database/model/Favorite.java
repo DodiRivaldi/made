@@ -1,5 +1,6 @@
 package tech.march.submission1.database.model;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -28,6 +29,17 @@ public class Favorite implements Parcelable {
         this.date = date;
         this.overview = overview;
         this.type = type;
+    }
+
+    public Favorite (Cursor curso){
+        this.ID =ID;
+        this.image = image;
+        this.title = title;
+        this.artist = artist;
+        this.date = date;
+        this.overview = overview;
+        this.type = type;
+
     }
 
     protected Favorite(Parcel in) {
