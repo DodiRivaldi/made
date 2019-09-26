@@ -62,13 +62,13 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
     @Override
     public RemoteViews getViewAt(int position) {
         Favorite item = FavItems.get(position);
-        RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.favorite_widget);
+        RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.item_widget);
         Bitmap bitmap = null;
         try {
             //noinspection deprecation
             bitmap = Glide.with(mContext)
                     .asBitmap()
-                    .load(ApiHelper.BASE_IMAGE_URL + "w780" +  item.getImage())
+                    .load(ApiHelper.BASE_IMAGE_URL + "w780" +   item.getImage())
                     .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .get();
         } catch (InterruptedException e) {
@@ -77,14 +77,14 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
             e.printStackTrace();
         }
 
-        rv.setImageViewBitmap(R.id.imageView, bitmap);
+        rv.setImageViewBitmap(R.id.img_widget, bitmap);
 
         Bundle extras = new Bundle();
         extras.putInt(FavoriteWidget.EXTRA_ITEM, position);
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
 
-        rv.setOnClickFillInIntent(R.id.imageView, fillInIntent);
+        rv.setOnClickFillInIntent(R.id.img_widget, fillInIntent);
 
         return rv;
     }

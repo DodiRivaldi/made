@@ -4,6 +4,6 @@
     android:initialLayout="@layout/favorite_widget"
     android:minHeight="110dp"
     android:minWidth="250dp"
-    android:previewImage="@drawable/citra"
+    android:previewImage="@drawable/iamsertam"
     android:updatePeriodMillis="0"
-    android:widgetCategory="home_screen" />
+    android:widgetCategory="home_screen"/>

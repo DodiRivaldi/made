@@ -15,5 +15,7 @@
     <string name="deletedata">Data dihapus</string>
     <string name="appwidget_text">Contoh</string>
     <string name="add_widget">Tambah widget</string>
+    <string name="alarm_daily">Ada film dan acara TV terbaru lhoo</string>
+    <string name="no_data">Tidak ada data ditemukan</string>
     <string name="empty_text">Kosong</string>
 </resources>
