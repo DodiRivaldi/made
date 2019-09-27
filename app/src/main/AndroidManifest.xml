@@ -36,12 +36,28 @@
                 android:resource="@xml/favorite_widget_info" />
         </receiver>
 
+        <receiver
+            android:name=".alarm.DailyAlarmReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+
+        <receiver
+            android:name=".alarm.DailyReleaseAlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
         <service
             android:name=".widget.StackWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
 
 </manifest>

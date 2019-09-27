@@ -6,18 +6,18 @@ import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
-import com.google.android.material.tabs.TabLayout;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.march.submission1.R;
 import tech.march.submission1.activity.favorite.FavoriteActivity;
 import tech.march.submission1.adapter.ViewPagerAdapter;
+import tech.march.submission1.alarm.DailyAlarmReceiver;
 import tech.march.submission1.fragment.movies.MoviesFragment;
 import tech.march.submission1.fragment.tvshow.TvShowFragment;
 
@@ -29,12 +29,16 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.tabs)
     TabLayout tabLayout;
 
+    private DailyAlarmReceiver dailyAlarmReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+
+        dailyAlarmReceiver = new DailyAlarmReceiver();
+        dailyAlarmReceiver.setupAlarm(this);
 
     }
 

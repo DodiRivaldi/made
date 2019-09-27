@@ -72,19 +72,19 @@ public class DailyAlarmReceiver extends BroadcastReceiver {
 
     }
 
-    private void stopAlarm(Context context) {
+    public void stopAlarm(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, DailyAlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, REQ_DAILY, intent, 0);
         alarmManager.cancel(pendingIntent);
     }
 
-    private void setupAlarm(Context context) {
+    public void setupAlarm(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, DailyAlarmReceiver.class);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 7);
-        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 15);
+        calendar.set(Calendar.MINUTE, 10);
         calendar.set(Calendar.SECOND, 0);
 
         PendingIntent pendingIntent = PendingIntent.
