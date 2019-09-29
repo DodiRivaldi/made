@@ -18,4 +18,11 @@
     <string name="alarm_daily">Ada film dan acara TV terbaru lhoo</string>
     <string name="no_data">Tidak ada data ditemukan</string>
     <string name="empty_text">Kosong</string>
+
+
+    <string name="rilis">Pembaruan</string>
+    <string name="release">Pengingat pembaruan</string>
+    <string name="daily">Pengingat harian</string>
+    <string name="setting">Pengaturan Alarm</string>
+
 </resources>

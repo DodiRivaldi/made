@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tech.march.submission1">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".database.application.MadeApp"
         android:allowBackup="true"
@@ -10,8 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme.Base">
+        <activity
+            android:label="@string/setting"
+            android:name=".activity.setting.SettingActivity"></activity>
         <activity android:name=".activity.search.SearchActivity" />
-
         <activity
             android:name=".activity.favorite.FavoriteActivity"
             android:label="@string/favorite" />
@@ -35,29 +41,20 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/favorite_widget_info" />
         </receiver>
+        <receiver
+            android:name=".alarm.DailyReleaseAlarmReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
 
         <receiver
             android:name=".alarm.DailyAlarmReceiver"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="true" />
 
-
-        <receiver
-            android:name=".alarm.DailyReleaseAlarmReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
         <service
             android:name=".widget.StackWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-
 
 </manifest>

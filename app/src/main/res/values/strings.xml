@@ -20,4 +20,9 @@
     <string name="alarm_daily">MovieApp missing you</string>
     <string name="no_data">No data</string>
     <string name="rilis">release</string>
+    <string name="release">Release reminder</string>
+    <string name="daily">Daily reminder</string>
+    <string name="key_daily">key_daily</string>
+    <string name="key_release">key_release</string>
+    <string name="setting">Alarm Settings</string>
 </resources>

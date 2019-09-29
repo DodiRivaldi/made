@@ -21,7 +21,8 @@ public class Favorite implements Parcelable {
         this.type = type;
     }
 
-    public Favorite(String ID, String image, String title, String artist, String date, String overview, String type) {
+    public Favorite(String ID, String image, String title, String artist, String date,
+                    String overview, String type) {
         this.ID = ID;
         this.image = image;
         this.title = title;

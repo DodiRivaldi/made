@@ -16,8 +16,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.march.submission1.R;
 import tech.march.submission1.activity.favorite.FavoriteActivity;
+import tech.march.submission1.activity.setting.SettingActivity;
 import tech.march.submission1.adapter.ViewPagerAdapter;
-import tech.march.submission1.alarm.DailyAlarmReceiver;
 import tech.march.submission1.fragment.movies.MoviesFragment;
 import tech.march.submission1.fragment.tvshow.TvShowFragment;
 
@@ -29,16 +29,12 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.tabs)
     TabLayout tabLayout;
 
-    private DailyAlarmReceiver dailyAlarmReceiver;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
 
-        dailyAlarmReceiver = new DailyAlarmReceiver();
-        dailyAlarmReceiver.setupAlarm(this);
 
     }
 
@@ -67,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_change_settings) {
             Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+            startActivity(mIntent);
+        }else if (item.getItemId() == R.id.action_settings) {
+            Intent mIntent = new Intent(MainActivity.this, SettingActivity.class);
             startActivity(mIntent);
         } else if (item.getItemId() == R.id.action_fav) {
             Intent intent = new Intent(MainActivity.this, FavoriteActivity.class);
