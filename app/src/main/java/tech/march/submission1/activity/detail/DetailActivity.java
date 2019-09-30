@@ -1,35 +1,26 @@
 package tech.march.submission1.activity.detail;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.march.submission1.R;
-import tech.march.submission1.activity.favorite.FavoriteActivity;
-import tech.march.submission1.adapter.FavoriteAdapter;
 import tech.march.submission1.api.ApiHelper;
 import tech.march.submission1.api.ApiRequest;
 import tech.march.submission1.api.model.Movie;
 import tech.march.submission1.api.model.TvShow;
-import tech.march.submission1.database.helper.RealmHelper;
-import tech.march.submission1.database.model.Favorite;
+import tech.march.submission1.db.FavoriteData;
+import tech.march.submission1.db.FavoriteHelper;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -46,14 +37,17 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.btn_fav)
     Button btnFav;
 
-    private ArrayList<Favorite> arrayList;
-    private RealmHelper helper;
+    //private ArrayList<Favorite> arrayList;
+    //private RealmHelper helper;
 
     public static final String EXTRA_DATA = String.valueOf(R.string.extra_data);
     public static final String EXTRA_DATA_TV = String.valueOf(R.string.extra_data_tv);
     public static final String EXTRA_DATA_FAV = String.valueOf(R.string.extra_data_fav);
     private ProgressDialog dialog;
     private ApiRequest request;
+
+    private FavoriteHelper helper;
+    private FavoriteData favoriteData = new FavoriteData();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +62,8 @@ public class DetailActivity extends AppCompatActivity {
 
     private void init() {
         ButterKnife.bind(this);
-        helper = new RealmHelper(this);
         dialog = new ProgressDialog(this);
-        helper = new RealmHelper(this);
+      //  helper = new RealmHelper(this);
         final Handler handler = new Handler();
         dialog.setMessage(getString(R.string.waiting));
         dialog.setCancelable(false);
@@ -92,10 +85,11 @@ public class DetailActivity extends AppCompatActivity {
                             tvDate.setText(item.getFirst_air_date());
                             tvArtist.setText(item.getVoteAverage());
                             tvOverView.setText(item.getOverview());
-                            Picasso.get().load(ApiHelper.BASE_IMAGE_URL + "original" + item.getPoster_path()).into(imgPoster);
+                            Picasso.get().load(ApiHelper.BASE_IMAGE_URL + "original" +
+                                    item.getPoster_path()).into(imgPoster);
                             dialog.dismiss();
 
-                            btnFav.setOnClickListener((View v) -> {
+        /*                    btnFav.setOnClickListener((View v) -> {
                                 helper.addFavorite(item.getId(), item.getPoster_path(), item.getName(),
                                         item.getPopularity(), item.getFirst_air_date(), item.getOverview(), "tv");
                             });
@@ -107,7 +101,7 @@ public class DetailActivity extends AppCompatActivity {
                             } else {
                                 btnFav.setVisibility(View.GONE);
                             }
-
+*/
 
                         }
                     });
@@ -131,7 +125,7 @@ public class DetailActivity extends AppCompatActivity {
                             Picasso.get().load(ApiHelper.BASE_IMAGE_URL + "original" + movie.getPoster_path()).into(imgPoster);
                             dialog.dismiss();
 
-                            arrayList = helper.checkData(movie.getId());
+  /*                          arrayList = helper.checkData(movie.getId());
 
                             if (arrayList.size() == 0) {
                                 btnFav.setVisibility(View.VISIBLE);
@@ -143,7 +137,7 @@ public class DetailActivity extends AppCompatActivity {
                                         movie.getPopularity(), movie.getRelease_date(), movie.getOverview(), "movie");
 
                             });
-
+*/
                         }
                     });
                 }
@@ -160,7 +154,7 @@ public class DetailActivity extends AppCompatActivity {
                     } catch (Exception e) {
                     }
 
-                    handler.post(new Runnable() {
+  /*                  handler.post(new Runnable() {
                         public void run() {
                             arrayList = helper.checkData(ids);
                             tvTitle.setText(arrayList.get(0).getTitle());
@@ -185,7 +179,7 @@ public class DetailActivity extends AppCompatActivity {
                             }
                         }
                     });
-                }
+    */            }
             }).start();
 
 
