@@ -1,16 +1,21 @@
 package tech.march.submission1.activity.detail;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,6 +26,15 @@ import tech.march.submission1.api.model.Movie;
 import tech.march.submission1.api.model.TvShow;
 import tech.march.submission1.db.FavoriteData;
 import tech.march.submission1.db.FavoriteHelper;
+
+
+import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.CATEGORY;
+import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.CONTENT_URI;
+import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.ID;
+import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.OVERVIEW;
+import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.POSTER;
+import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.RATING;
+import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.TITLE;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -59,6 +73,19 @@ public class DetailActivity extends AppCompatActivity {
 
 
     }
+
+   /* private void setupData() {
+
+        helper = new FavoriteHelper(getApplicationContext());
+        helper.open();
+        MOVIE_ID = getIntent().getIntExtra(MID, MOVIE_ID);
+        String LANGUANGE = Locale.getDefault().toString();
+        if (LANGUANGE.equals("in_ID")) {
+            LANGUANGE = "id_ID";
+        }
+        movieViewModel.setMovie(MOVIE_ID, LANGUANGE);
+
+    }*/
 
     private void init() {
         ButterKnife.bind(this);
@@ -138,6 +165,33 @@ public class DetailActivity extends AppCompatActivity {
 
                             });
 */
+
+  btnFav.setOnClickListener((View v)->{
+      Movie m = getIntent().getParcelableExtra(EXTRA_DATA);
+
+      favoriteData.setId(Integer.parseInt(m.getId()));
+      favoriteData.setTitle(m.getTitle());
+      favoriteData.setPoster(m.getPoster_path());
+      favoriteData.setOverview(m.getOverview());
+      favoriteData.setRating(Double.parseDouble(m.getPopularity()));
+      favoriteData.setCategory("movie");
+
+      ContentValues values = new ContentValues();
+      values.put(ID, m.getId());
+      values.put(TITLE, m.getTitle());
+      values.put(OVERVIEW, m.getOverview());
+      values.put(POSTER, m.getPoster_path());
+      values.put(RATING, m.getPopularity());
+      values.put(CATEGORY, "movie");
+
+      if (getContentResolver().insert(CONTENT_URI, values) != null) {
+          Toast.makeText(DetailActivity.this, m.getTitle() + " " + " has been a favorite", Toast.LENGTH_SHORT).show();
+          // item.setIcon(R.drawable.ic_favorite_pink_24dp);
+      } else {
+          Toast.makeText(DetailActivity.this, m.getTitle() + " " + " failed to be favorite" , Toast.LENGTH_SHORT).show();
+      }
+  });
+
                         }
                     });
                 }
