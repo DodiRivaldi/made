@@ -1,6 +1,80 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<?xml version="1.0" encoding="UTF-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="8dp"
+    card_view:cardCornerRadius="16dp"
+    card_view:cardBackgroundColor="@color/colorPrimaryDark"
+    android:elevation="45dp"
+    android:dividerHeight="0.0px"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    card_view:cardElevation="10dp"
+    card_view:cardPreventCornerOverlap="false">
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:padding="8dp"
+        android:background="@color/colorPrimaryDark"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="8dp">
+
+
+        <ImageView
+            android:id="@+id/imgPosterFav"
+            android:layout_width="116dp"
+            android:layout_height="168dp"
+            android:elevation="8dp" />
+
+        <TextView
+            android:id="@+id/tvNameFav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="19dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp"
+            android:layout_toEndOf="@id/imgPosterFav"
+            android:layout_toRightOf="@id/imgPosterFav"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Your Name" />
+
+        <RatingBar
+            android:id="@+id/ratingFav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/imgPosterFav"
+            android:layout_marginLeft="16dp"
+            android:rating="3.5"
+            android:numStars="5"
+            android:layout_marginBottom="4dp"
+            android:layout_below="@id/tvNameFav"
+            style="@style/Widget.AppCompat.RatingBar.Small"/>
+
+        <TextView
+            android:textColor="#E5E7E9"
+            android:id="@+id/tvOverviewFav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ratingFav"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_toEndOf="@id/imgPosterFav"
+            android:maxLines="3" />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

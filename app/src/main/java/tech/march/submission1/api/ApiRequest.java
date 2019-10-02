@@ -15,12 +15,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tech.march.submission1.api.model.Movie;
 import tech.march.submission1.api.model.TvShow;
+import tech.march.submission1.api.response.MovieFav;
 
 public class ApiRequest extends ViewModel {
+    private static final ApiInterface apiInterface = new ApiHelper().getApi();
     private MutableLiveData<ArrayList<Movie>> movies = new MutableLiveData<>();
     private MutableLiveData<ArrayList<TvShow>> tvShows = new MutableLiveData<>();
+    private final MutableLiveData<MovieFav> movie = new MutableLiveData<>();
 
     public void setMovies(final String extra) {
         AsyncHttpClient client = new AsyncHttpClient();
@@ -56,10 +62,34 @@ public class ApiRequest extends ViewModel {
         });
     }
 
+    public void setFavMovie(int id) {
+        apiInterface.getMovie(id, ApiHelper.APIKEY).enqueue(new Callback<MovieFav>() {
+            @Override
+            public void onResponse(Call<MovieFav> call, Response<MovieFav> response) {
+                if (response.isSuccessful()) {
+                    movie.postValue(response.body());
+                    Log.d("setMovie", "success");
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MovieFav> call, Throwable t) {
+                Log.d("setMovie", "Failed: " + t.getMessage());
+            }
+        });
+    }
+
+
+
     public LiveData<ArrayList<Movie>> getMovies() {
         return movies;
     }
 
+    public LiveData<MovieFav> getMovieFav() {
+        return movie;
+    }
     public void setTvShows(final String extra) {
         AsyncHttpClient client = new AsyncHttpClient();
         final ArrayList<TvShow> items = new ArrayList<>();

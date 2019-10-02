@@ -1,11 +1,11 @@
 package tech.march.submission1.activity.favorite;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
-
-import android.os.Bundle;
-import android.view.MenuItem;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -14,7 +14,6 @@ import butterknife.ButterKnife;
 import tech.march.submission1.R;
 import tech.march.submission1.adapter.ViewPagerAdapter;
 import tech.march.submission1.fragment.movies.FavoriteMovieFragment;
-import tech.march.submission1.fragment.tvshow.FavoriteTvFragment;
 
 public class FavoriteActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
@@ -44,7 +43,7 @@ public class FavoriteActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new FavoriteMovieFragment(), getString(R.string.movies));
-        adapter.addFragment(new FavoriteTvFragment(), getString(R.string.tvshow));
+     //   adapter.addFragment(new FavoriteTvFragment(), getString(R.string.tvshow));
         viewPager.setAdapter(adapter);
     }
 
