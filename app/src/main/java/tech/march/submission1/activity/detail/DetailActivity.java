@@ -1,7 +1,8 @@
 package tech.march.submission1.activity.detail;
 
-import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,9 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -21,6 +24,7 @@ import tech.march.submission1.R;
 import tech.march.submission1.api.ApiHelper;
 import tech.march.submission1.api.ApiRequest;
 import tech.march.submission1.api.model.Movie;
+import tech.march.submission1.api.model.TvData;
 import tech.march.submission1.api.model.TvShow;
 import tech.march.submission1.api.response.MovieFav;
 import tech.march.submission1.db.FavoriteData;
@@ -56,10 +60,10 @@ public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_DATA_TV = String.valueOf(R.string.extra_data_tv);
     public static final String EXTRA_DATA_FAV = String.valueOf(R.string.extra_data_fav);
     public static final String MID = "movie_id";
-    private ProgressDialog dialog;
     private ApiRequest request;
     private int id, mId;
     private int MOVIE_ID;
+    private String poster;
 
     private FavoriteHelper helper;
     private FavoriteData favoriteData = new FavoriteData();
@@ -89,21 +93,29 @@ public class DetailActivity extends AppCompatActivity {
             tvOverView.setText(item.getOverview());
             Picasso.get().load(ApiHelper.BASE_IMAGE_URL + "original" +
                     item.getPoster_path()).into(imgPoster);
-            dialog.dismiss();
 
-        /*                    btnFav.setOnClickListener((View v) -> {
-                                helper.addFavorite(item.getId(), item.getPoster_path(), item.getName(),
-                                        item.getPopularity(), item.getFirst_air_date(), item.getOverview(), "tv");
-                            });
+            btnFav.setOnClickListener((View v) -> {
+                favoriteData.setId(Integer.parseInt(item.getId()));
+                favoriteData.setTitle(item.getName());
+                favoriteData.setPoster(item.getPoster_path());
+                favoriteData.setOverview(item.getOverview());
+                favoriteData.setRating(Double.parseDouble(item.getPopularity()));
+                favoriteData.setCategory("tv");
 
-                            arrayList = helper.checkData(item.getId());
+                ContentValues values = new ContentValues();
+                values.put(ID, item.getId());
+                values.put(TITLE, item.getName());
+                values.put(OVERVIEW, item.getOverview());
+                values.put(POSTER, item.getPoster_path());
+                values.put(RATING, item.getPopularity());
+                values.put(CATEGORY, "tv");
 
-                            if (arrayList.size() == 0) {
-                                btnFav.setVisibility(View.VISIBLE);
-                            } else {
-                                btnFav.setVisibility(View.GONE);
-                            }
-*/
+                if (getContentResolver().insert(CONTENT_URI, values) != null) {
+                    Toast.makeText(DetailActivity.this, item.getName() + " " + " has been a favorite", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(DetailActivity.this, item.getName() + " " + " failed to be favorite", Toast.LENGTH_SHORT).show();
+                }
+            });
 
         } else if (type.equals("movie")) {
             Movie movie = getIntent().getParcelableExtra(EXTRA_DATA);
@@ -113,21 +125,6 @@ public class DetailActivity extends AppCompatActivity {
             tvOverView.setText(movie.getOverview());
             Picasso.get().load(ApiHelper.BASE_IMAGE_URL + "original" +
                     movie.getPoster_path()).into(imgPoster);
-            dialog.dismiss();
-
-  /*                          arrayList = helper.checkData(movie.getId());
-
-                            if (arrayList.size() == 0) {
-                                btnFav.setVisibility(View.VISIBLE);
-                            } else {
-                                btnFav.setVisibility(View.GONE);
-                            }
-                            btnFav.setOnClickListener((View v) -> {
-                                helper.addFavorite(movie.getId(), movie.getPoster_path(), movie.getTitle(),
-                                        movie.getPopularity(), movie.getRelease_date(), movie.getOverview(), "movie");
-
-                            });
-*/
 
             btnFav.setOnClickListener((View v) -> {
                 Movie m = getIntent().getParcelableExtra(EXTRA_DATA);
@@ -149,42 +146,116 @@ public class DetailActivity extends AppCompatActivity {
 
                 if (getContentResolver().insert(CONTENT_URI, values) != null) {
                     Toast.makeText(DetailActivity.this, m.getTitle() + " " + " has been a favorite", Toast.LENGTH_SHORT).show();
-                    // item.setIcon(R.drawable.ic_favorite_pink_24dp);
                 } else {
                     Toast.makeText(DetailActivity.this, m.getTitle() + " " + " failed to be favorite", Toast.LENGTH_SHORT).show();
                 }
             });
 
 
-        } else if (type.equals("fav")) {
-            setupData();
+        } else if (type.equals("favmovie")) {
+
+            helper = new FavoriteHelper(getApplicationContext());
+            helper.open();
+            MOVIE_ID = getIntent().getIntExtra(MID, MOVIE_ID);
+
+            request = ViewModelProviders.of(this).get(ApiRequest.class);
+            request.getMovieFav().observe(this, getMovie);
+
+            request.setFavMovie(MOVIE_ID);
+
+            btnFav.setText(R.string.deletefav);
+
+            btnFav.setOnClickListener((View v) -> {
+                if (isFavorite()) {
+                    Uri uri = Uri.parse(CONTENT_URI + "/" + 1);
+                    getContentResolver().delete(uri, null, null);
+                    Toast.makeText(DetailActivity.this, "Favorite Deleted", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(DetailActivity.this, "F Deleted", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        }  else if (type.equals("favtv")) {
+
+            helper = new FavoriteHelper(getApplicationContext());
+            helper.open();
+            MOVIE_ID = getIntent().getIntExtra(MID, MOVIE_ID);
+
+            request = ViewModelProviders.of(this).get(ApiRequest.class);
+            request.getTvFav().observe(this, getTv);
+
+            request.setTv(MOVIE_ID);
+
+            btnFav.setText(R.string.deletefav);
+
+            btnFav.setOnClickListener((View v) -> {
+                if (isFavorite()) {
+                    Uri uri = Uri.parse(CONTENT_URI + "/" + 1);
+                    getContentResolver().delete(uri, null, null);
+                    Toast.makeText(DetailActivity.this, "Favorite Deleted", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(DetailActivity.this, "F Deleted", Toast.LENGTH_SHORT).show();
+
+                }
+            });
         }
-    }
-
-    private void setupData() {
-
-        helper = new FavoriteHelper(getApplicationContext());
-        helper.open();
-        MOVIE_ID = getIntent().getIntExtra(MID, MOVIE_ID);
-
-        request = ViewModelProviders.of(this).get(ApiRequest.class);
-        request.getMovieFav().observe(this, getMovie);
-
-        request.setFavMovie(MOVIE_ID);
-
     }
 
 
     private final Observer<MovieFav> getMovie = new Observer<MovieFav>() {
         @Override
         public void onChanged(MovieFav movie) {
+            isFavorite();
             tvTitle.setText(movie.getMovieName());
             tvDate.setText(movie.getMovieDate());
             tvOverView.setText(movie.getMovieOverview());
             Picasso.get().load(ApiHelper.BASE_IMAGE_URL + "original" +
                     movie.getMoviePoster()).into(imgPoster);
+            poster = movie.getMoviePoster();
+            mId = movie.getMovieId();
+
+
         }
     };
 
+    private final Observer<TvData> getTv = new Observer<TvData>() {
+        @Override
+        public void onChanged(TvData tvShowData) {
+
+
+            mId = tvShowData.getTvShowId();
+            poster = tvShowData.getTvShowPoster();
+            isFavorite();
+
+
+            Glide.with(DetailActivity.this)
+                    .load(ApiHelper.BASE_IMAGE_URL+"original/" + tvShowData.getTvShowPoster())
+                    .into(imgPoster);
+
+            tvTitle.setText(tvShowData.getTvShowName());
+            tvDate.setText(tvShowData.getmFirstAirDate());
+            tvOverView.setText(tvShowData.getTvShowOverView());
+            Picasso.get().load(ApiHelper.BASE_IMAGE_URL + "original" +
+                    tvShowData.getTvShowPoster()).into(imgPoster);
+        }
+    };
+
+
+    private boolean isFavorite() {
+        Uri uri = Uri.parse(CONTENT_URI +  "");
+        boolean favorite = false;
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        int getmId;
+        if (cursor.moveToFirst()) {
+            do {
+                getmId = cursor.getInt(1);
+                if (getmId == mId) {
+                    id = cursor.getInt(0);
+                    favorite = true;
+                }
+            } while (cursor.moveToNext());
+        }
+        return favorite;
+    }
 
 }

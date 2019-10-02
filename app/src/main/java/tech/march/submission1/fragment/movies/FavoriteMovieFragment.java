@@ -23,6 +23,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import tech.march.submission1.R;
 import tech.march.submission1.activity.detail.DetailActivity;
 import tech.march.submission1.adapter.FavMovieAdapter;
@@ -38,7 +40,8 @@ import static tech.march.submission1.db.MappingHelper.getMovieFavoriteList;
  */
 public class FavoriteMovieFragment extends Fragment {
     private static final String EXTRA_STATE = "EXTRA_STATE";
-    private RecyclerView rvMovie;
+    @BindView(R.id.rvListFav)
+    RecyclerView rvMovie;
     private LoadFavoriteCallback callback;
     private FavMovieAdapter adapter;
     private FavoriteHelper helper;
@@ -60,8 +63,7 @@ public class FavoriteMovieFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-        rvMovie = view.findViewById(R.id.rvListFav);
+        ButterKnife.bind(this, view);
 
         setupView();
 
@@ -107,7 +109,8 @@ public class FavoriteMovieFragment extends Fragment {
         handlerThread.start();
         Handler handler = new Handler(handlerThread.getLooper());
         DataObserver myObserver = new DataObserver(handler, getContext(), callback);
-        Objects.requireNonNull(getActivity()).getContentResolver().registerContentObserver(CONTENT_URI, true, myObserver);
+        Objects.requireNonNull(getActivity()).getContentResolver().registerContentObserver(CONTENT_URI,
+                true, myObserver);
 
         rvMovie.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvMovie.setHasFixedSize(true);
@@ -118,7 +121,7 @@ public class FavoriteMovieFragment extends Fragment {
         adapter = new FavMovieAdapter(getActivity(), id -> {
             Intent intent = new Intent(getActivity(), DetailActivity.class);
             intent.putExtra(DetailActivity.MID, id);
-            intent.putExtra("type","fav");
+            intent.putExtra("type", "favmovie");
             startActivity(intent);
         });
 

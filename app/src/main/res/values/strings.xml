@@ -25,4 +25,6 @@
     <string name="key_daily">key_daily</string>
     <string name="key_release">key_release</string>
     <string name="setting">Alarm Settings</string>
+    <string name="deletefav">Deleted fav</string>
+    <string name="failed">Failed</string>
 </resources>

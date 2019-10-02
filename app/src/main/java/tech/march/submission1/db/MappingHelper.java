@@ -44,7 +44,7 @@ public class MappingHelper {
             double rating = cursor.getDouble(cursor.getColumnIndexOrThrow(RATING));
             String category = cursor.getString(cursor.getColumnIndexOrThrow(CATEGORY));
 
-            if (category.equals("tvshow")) {
+            if (category.equals("tv")) {
                 list.add(new FavoriteData(id, mId ,rating, title, overview, poster, category));
             }
         }

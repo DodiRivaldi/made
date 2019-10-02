@@ -17,6 +17,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import tech.march.submission1.R;
 import tech.march.submission1.db.FavoriteData;
 
@@ -50,23 +52,20 @@ public class FavMovieAdapter extends RecyclerView.Adapter<FavMovieAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View postView = inflater.inflate(R.layout.item_mov_fav, parent, false);
+        View postView = inflater.inflate(R.layout.item_movie, parent, false);
         return new ViewHolder(postView, this.postItemListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FavoriteData favoriteDatas = favoriteData.get(position);
-        double score = favoriteDatas.getRating() / 2;
 
-        holder.ratingBar.setRating((float) score);
-        holder.tvName.setText(favoriteDatas.getTitle());
-        holder.tvOverview.setText(favoriteDatas.getOverview());
+        holder.tvTitle.setText(favoriteDatas.getTitle());
 
         Glide.with(activity)
-                .load(BASE_IMAGE_URL + favoriteDatas.getPoster())
+                .load(BASE_IMAGE_URL +"original/"+ favoriteDatas.getPoster())
                 .transform(new RoundedCorners(45))
-                .into(holder.poster);
+                .into(holder.imgPoster);
     }
 
     @Override
@@ -84,18 +83,22 @@ public class FavMovieAdapter extends RecyclerView.Adapter<FavMovieAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView tvName, tvOverview;
-        ImageView poster;
-        RatingBar ratingBar;
+        @BindView(R.id.img_poster)
+        ImageView imgPoster;
+        @BindView(R.id.tv_title)
+        TextView tvTitle;
+        @BindView(R.id.tv_type)
+        TextView tvType;
+        @BindView(R.id.tv_time)
+        TextView tvTime;
+        @BindView(R.id.tv_rate)
+        TextView tvRate;
         PostItemListener postItemListener;
         public ViewHolder(@NonNull View itemView, PostItemListener postItemListener) {
             super(itemView);
 
 
-            tvName = itemView.findViewById(R.id.tvNameFav);
-            tvOverview = itemView.findViewById(R.id.tvOverviewFav);
-            poster = itemView.findViewById(R.id.imgPosterFav);
-            ratingBar = itemView.findViewById(R.id.ratingFav);
+            ButterKnife.bind(this,itemView);
 
             this.postItemListener = postItemListener;
             itemView.setOnClickListener(this);

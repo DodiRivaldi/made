@@ -13,13 +13,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tech.march.submission1.api.model.Movie;
+import tech.march.submission1.api.model.TvData;
 import tech.march.submission1.api.model.TvShow;
+import tech.march.submission1.api.response.FavoriteFav;
 import tech.march.submission1.api.response.MovieFav;
 
 public class ApiRequest extends ViewModel {
@@ -27,6 +30,7 @@ public class ApiRequest extends ViewModel {
     private MutableLiveData<ArrayList<Movie>> movies = new MutableLiveData<>();
     private MutableLiveData<ArrayList<TvShow>> tvShows = new MutableLiveData<>();
     private final MutableLiveData<MovieFav> movie = new MutableLiveData<>();
+    private final MutableLiveData<TvData> tv = new MutableLiveData<>();
 
     public void setMovies(final String extra) {
         AsyncHttpClient client = new AsyncHttpClient();
@@ -81,7 +85,24 @@ public class ApiRequest extends ViewModel {
         });
     }
 
+    public void setTv(int id) {
+        apiInterface.getTv(id, ApiHelper.APIKEY).enqueue(new Callback<TvData>() {
+            @Override
+            public void onResponse(Call<TvData> call, Response<TvData> response) {
+                if (response.isSuccessful()) {
+                    tv.postValue(response.body());
+                    Log.d("setTv", "succsess");
+                } else {
 
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TvData> call, Throwable t) {
+                Log.d("setTv", "Failed: " + t.getMessage());
+            }
+        });
+    }
 
     public LiveData<ArrayList<Movie>> getMovies() {
         return movies;
@@ -90,6 +111,11 @@ public class ApiRequest extends ViewModel {
     public LiveData<MovieFav> getMovieFav() {
         return movie;
     }
+    public LiveData<TvData> getTvFav() {
+        return tv;
+    }
+
+
     public void setTvShows(final String extra) {
         AsyncHttpClient client = new AsyncHttpClient();
         final ArrayList<TvShow> items = new ArrayList<>();
