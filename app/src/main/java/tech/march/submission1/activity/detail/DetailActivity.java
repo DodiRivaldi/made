@@ -1,6 +1,7 @@
 package tech.march.submission1.activity.detail;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -21,6 +21,8 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.march.submission1.R;
+import tech.march.submission1.activity.favorite.FavoriteActivity;
+import tech.march.submission1.activity.main.MainActivity;
 import tech.march.submission1.api.ApiHelper;
 import tech.march.submission1.api.ApiRequest;
 import tech.march.submission1.api.model.Movie;
@@ -60,9 +62,12 @@ public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_DATA_TV = String.valueOf(R.string.extra_data_tv);
     public static final String EXTRA_DATA_FAV = String.valueOf(R.string.extra_data_fav);
     public static final String MID = "movie_id";
+    public static final String TVID = "tv_id";
+
     private ApiRequest request;
     private int id, mId;
     private int MOVIE_ID;
+    private int TV_ID;
     private String poster;
 
     private FavoriteHelper helper;
@@ -112,6 +117,8 @@ public class DetailActivity extends AppCompatActivity {
 
                 if (getContentResolver().insert(CONTENT_URI, values) != null) {
                     Toast.makeText(DetailActivity.this, item.getName() + " " + " has been a favorite", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(DetailActivity.this, MainActivity.class));
+                    finish();
                 } else {
                     Toast.makeText(DetailActivity.this, item.getName() + " " + " failed to be favorite", Toast.LENGTH_SHORT).show();
                 }
@@ -146,6 +153,8 @@ public class DetailActivity extends AppCompatActivity {
 
                 if (getContentResolver().insert(CONTENT_URI, values) != null) {
                     Toast.makeText(DetailActivity.this, m.getTitle() + " " + " has been a favorite", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(DetailActivity.this, MainActivity.class));
+                    finish();
                 } else {
                     Toast.makeText(DetailActivity.this, m.getTitle() + " " + " failed to be favorite", Toast.LENGTH_SHORT).show();
                 }
@@ -167,34 +176,39 @@ public class DetailActivity extends AppCompatActivity {
 
             btnFav.setOnClickListener((View v) -> {
                 if (isFavorite()) {
-                    Uri uri = Uri.parse(CONTENT_URI + "/" + 1);
+                    Uri uri = Uri.parse(CONTENT_URI + "/" + id);
                     getContentResolver().delete(uri, null, null);
                     Toast.makeText(DetailActivity.this, "Favorite Deleted", Toast.LENGTH_SHORT).show();
-                }else {
+                    startActivity(new Intent(DetailActivity.this, FavoriteActivity.class));
+                    finish();
+                } else {
                     Toast.makeText(DetailActivity.this, "F Deleted", Toast.LENGTH_SHORT).show();
 
                 }
             });
-        }  else if (type.equals("favtv")) {
+        } else if (type.equals("favtv")) {
 
             helper = new FavoriteHelper(getApplicationContext());
             helper.open();
-            MOVIE_ID = getIntent().getIntExtra(MID, MOVIE_ID);
+            TV_ID = getIntent().getIntExtra(TVID, TV_ID);
 
             request = ViewModelProviders.of(this).get(ApiRequest.class);
             request.getTvFav().observe(this, getTv);
 
-            request.setTv(MOVIE_ID);
+            Toast.makeText(this, String.valueOf(TV_ID), Toast.LENGTH_SHORT).show();
+            request.setTv(TV_ID);
 
             btnFav.setText(R.string.deletefav);
 
             btnFav.setOnClickListener((View v) -> {
                 if (isFavorite()) {
-                    Uri uri = Uri.parse(CONTENT_URI + "/" + 1);
+                    Uri uri = Uri.parse(CONTENT_URI + "/" + id);
                     getContentResolver().delete(uri, null, null);
                     Toast.makeText(DetailActivity.this, "Favorite Deleted", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(DetailActivity.this, "F Deleted", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(DetailActivity.this, FavoriteActivity.class));
+                    finish();
+                } else {
+                    Toast.makeText(DetailActivity.this, "Cannot delete", Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -229,7 +243,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
             Glide.with(DetailActivity.this)
-                    .load(ApiHelper.BASE_IMAGE_URL+"original/" + tvShowData.getTvShowPoster())
+                    .load(ApiHelper.BASE_IMAGE_URL + "original/" + tvShowData.getTvShowPoster())
                     .into(imgPoster);
 
             tvTitle.setText(tvShowData.getTvShowName());
@@ -242,7 +256,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
     private boolean isFavorite() {
-        Uri uri = Uri.parse(CONTENT_URI +  "");
+        Uri uri = Uri.parse(CONTENT_URI + "");
         boolean favorite = false;
         Cursor cursor = getContentResolver().query(uri, null, null, null, null);
         int getmId;

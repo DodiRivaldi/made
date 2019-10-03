@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,16 +28,11 @@ import butterknife.ButterKnife;
 import tech.march.submission1.R;
 import tech.march.submission1.activity.detail.DetailActivity;
 import tech.march.submission1.adapter.FavMovieAdapter;
-import tech.march.submission1.adapter.FavoriteAdapter;
-import tech.march.submission1.database.helper.RealmHelper;
-import tech.march.submission1.database.model.Favorite;
 import tech.march.submission1.db.FavoriteData;
 import tech.march.submission1.db.FavoriteHelper;
 import tech.march.submission1.db.LoadFavoriteCallback;
-import tech.march.submission1.fragment.movies.FavoriteMovieFragment;
 
 import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.CONTENT_URI;
-import static tech.march.submission1.db.MappingHelper.getMovieFavoriteList;
 import static tech.march.submission1.db.MappingHelper.getTvFavoriteList;
 
 /**
@@ -124,8 +118,8 @@ public class FavoriteTvFragment  extends Fragment {
         helper.open();
 
         adapter = new FavMovieAdapter(getActivity(), id -> {
-            Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra(DetailActivity.MID, id);
+            Intent intent = new Intent(getContext(), DetailActivity.class);
+            intent.putExtra(DetailActivity.TVID, id);
             intent.putExtra("type", "favtv");
             startActivity(intent);
         });

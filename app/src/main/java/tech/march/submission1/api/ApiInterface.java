@@ -5,7 +5,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import tech.march.submission1.api.model.TvData;
-import tech.march.submission1.api.response.FavoriteFav;
 import tech.march.submission1.api.response.MovieFav;
 import tech.march.submission1.api.response.MovieResponse;
 
@@ -27,7 +26,7 @@ public interface ApiInterface {
     );
 
 
-    @GET("tv/{tv_id}")
+    @GET("3/tv/{tv_id}")
     Call<TvData> getTv(
             @Path("tv_id") int id,
             @Query("api_key") String apiKey
