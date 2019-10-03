@@ -4,88 +4,83 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Binder;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import tech.march.submission1.R;
 import tech.march.submission1.api.ApiHelper;
-import tech.march.submission1.database.helper.RealmHelper;
-import tech.march.submission1.database.model.Favorite;
+import tech.march.submission1.db.FavoriteData;
 
-import static android.provider.Settings.System.CONTENT_URI;
+import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.CONTENT_URI;
 
 public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
-    private final Context mContext;
-    private RealmHelper helper;
+    private final Context context;
+    private Cursor cursor;
 
-    private List<Favorite> FavItems = new ArrayList<>();
-
-    StackRemoteViewsFactory(Context context) {
-        mContext = context;
+    public StackRemoteViewsFactory(Context mContext, Intent intent) {
+        context = mContext;
     }
+
 
     @Override
     public void onCreate() {
-        helper = new RealmHelper(mContext);
-        FavItems.addAll(helper.getAllDataWidget());
+        cursor = context.getContentResolver().query(CONTENT_URI, null, null, null, null);
     }
 
     @Override
     public void onDataSetChanged() {
-        helper = new RealmHelper(mContext);
-        FavItems.addAll(helper.getAllDataWidget());
+        if (cursor != null) {
+            cursor.close();
+        }
+        final long identityToken = Binder.clearCallingIdentity();
+        cursor = context.getContentResolver().query(CONTENT_URI, null, null, null, null);
+        Binder.restoreCallingIdentity(identityToken);
     }
 
     @Override
     public void onDestroy() {
-
     }
 
     @Override
     public int getCount() {
-        return FavItems.size();
+        return cursor.getCount();
     }
 
     @Override
-    public RemoteViews getViewAt(int position) {
-        Favorite item = FavItems.get(position);
-        RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.item_widget);
+    public RemoteViews getViewAt(int i) {
+        FavoriteData item = getPosition(i);
+        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.item_widget);
+
         Bitmap bitmap = null;
         try {
-            //noinspection deprecation
-            bitmap = Glide.with(mContext)
+            bitmap = Glide.with(context)
                     .asBitmap()
-                    .load(ApiHelper.BASE_IMAGE_URL + "w780" +   item.getImage())
+                    .load(ApiHelper.BASE_IMAGE_URL +"original/"+ item.getPoster())
                     .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .get();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Log.d("Widget Interrupted", e.getMessage());
         } catch (ExecutionException e) {
-            e.printStackTrace();
+            Log.d("Widget Execution", e.getMessage());
         }
 
-        rv.setImageViewBitmap(R.id.img_widget, bitmap);
+        rv.setImageViewBitmap(R.id.imageView, bitmap);
 
         Bundle extras = new Bundle();
-        extras.putInt(FavoriteWidget.EXTRA_ITEM, position);
-        Intent fillInIntent = new Intent();
-        fillInIntent.putExtras(extras);
+        extras.putInt(FavoriteWidget.EXTRA_ITEM, i);
+        Intent intent = new Intent();
+        intent.putExtras(extras);
 
-        rv.setOnClickFillInIntent(R.id.img_widget, fillInIntent);
-
+        rv.setOnClickFillInIntent(R.id.imageView, intent);
         return rv;
     }
 
@@ -107,6 +102,13 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
     @Override
     public boolean hasStableIds() {
         return false;
+    }
+
+    private FavoriteData getPosition(int position) {
+        if (!cursor.moveToPosition(position)) {
+            throw new IllegalStateException("getPosition :" + " invalid position");
+        }
+        return new FavoriteData(cursor);
     }
 
 }

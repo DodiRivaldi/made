@@ -1,4 +1,8 @@
-package tech.march.submission1.activity.detail;
+package marchtech.app.movieconsume.activity;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -11,35 +15,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import tech.march.submission1.R;
-import tech.march.submission1.activity.favorite.FavoriteActivity;
-import tech.march.submission1.activity.main.MainActivity;
-import tech.march.submission1.api.ApiHelper;
-import tech.march.submission1.api.ApiRequest;
-import tech.march.submission1.api.model.Movie;
-import tech.march.submission1.api.model.TvData;
-import tech.march.submission1.api.model.TvShow;
-import tech.march.submission1.api.response.MovieFav;
-import tech.march.submission1.db.FavoriteData;
-import tech.march.submission1.db.FavoriteHelper;
+import marchtech.app.movieconsume.R;
+import marchtech.app.movieconsume.api.ApiHelper;
+import marchtech.app.movieconsume.api.ApiRequest;
+import marchtech.app.movieconsume.api.model.Movie;
+import marchtech.app.movieconsume.api.model.TvData;
+import marchtech.app.movieconsume.api.model.TvShow;
+import marchtech.app.movieconsume.api.response.MovieFav;
+import marchtech.app.movieconsume.db.FavoriteHelper;
+import marchtech.app.movieconsume.model.FavoriteData;
 
-import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.CATEGORY;
-import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.CONTENT_URI;
-import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.ID;
-import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.OVERVIEW;
-import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.POSTER;
-import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.RATING;
-import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.TITLE;
-import static tech.march.submission1.widget.FavoriteWidget.sendRefreshBroadcast;
+import static marchtech.app.movieconsume.db.DatabaseContract.FavoriteColumns.CATEGORY;
+import static marchtech.app.movieconsume.db.DatabaseContract.FavoriteColumns.CONTENT_URI;
+import static marchtech.app.movieconsume.db.DatabaseContract.FavoriteColumns.ID;
+import static marchtech.app.movieconsume.db.DatabaseContract.FavoriteColumns.OVERVIEW;
+import static marchtech.app.movieconsume.db.DatabaseContract.FavoriteColumns.POSTER;
+import static marchtech.app.movieconsume.db.DatabaseContract.FavoriteColumns.RATING;
+import static marchtech.app.movieconsume.db.DatabaseContract.FavoriteColumns.TITLE;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -61,6 +58,7 @@ public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_DATA = String.valueOf(R.string.extra_data);
     public static final String EXTRA_DATA_TV = String.valueOf(R.string.extra_data_tv);
+    public static final String EXTRA_DATA_FAV = String.valueOf(R.string.extra_data_fav);
     public static final String MID = "movie_id";
     public static final String TVID = "tv_id";
 
@@ -108,7 +106,7 @@ public class DetailActivity extends AppCompatActivity {
                 favoriteData.setCategory("tv");
 
                 ContentValues values = new ContentValues();
-                values.put(ID, item.getId());
+                values.put(ID, mId);
                 values.put(TITLE, item.getName());
                 values.put(OVERVIEW, item.getOverview());
                 values.put(POSTER, item.getPoster_path());
@@ -144,7 +142,7 @@ public class DetailActivity extends AppCompatActivity {
                 favoriteData.setCategory("movie");
 
                 ContentValues values = new ContentValues();
-                values.put(ID, m.getId());
+                values.put(ID, mId);
                 values.put(TITLE, m.getTitle());
                 values.put(OVERVIEW, m.getOverview());
                 values.put(POSTER, m.getPoster_path());
@@ -179,15 +177,13 @@ public class DetailActivity extends AppCompatActivity {
                     Uri uri = Uri.parse(CONTENT_URI + "/" + id);
                     getContentResolver().delete(uri, null, null);
                     Toast.makeText(DetailActivity.this, "Favorite Deleted", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(DetailActivity.this, FavoriteActivity.class));
+                    startActivity(new Intent(DetailActivity.this, MainActivity.class));
                     finish();
                 } else {
                     Toast.makeText(DetailActivity.this, "F Deleted", Toast.LENGTH_SHORT).show();
 
                 }
             });
-            sendRefreshBroadcast(getApplicationContext());
-
         } else if (type.equals("favtv")) {
 
             helper = new FavoriteHelper(getApplicationContext());
@@ -207,15 +203,13 @@ public class DetailActivity extends AppCompatActivity {
                     Uri uri = Uri.parse(CONTENT_URI + "/" + id);
                     getContentResolver().delete(uri, null, null);
                     Toast.makeText(DetailActivity.this, "Favorite Deleted", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(DetailActivity.this, FavoriteActivity.class));
+                    startActivity(new Intent(DetailActivity.this, MainActivity.class));
                     finish();
                 } else {
                     Toast.makeText(DetailActivity.this, "Cannot delete", Toast.LENGTH_SHORT).show();
 
                 }
             });
-            sendRefreshBroadcast(getApplicationContext());
-
         }
     }
 

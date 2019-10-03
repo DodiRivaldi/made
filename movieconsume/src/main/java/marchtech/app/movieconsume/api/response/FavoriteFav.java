@@ -1,10 +1,11 @@
-package tech.march.submission1.api.response;
+package marchtech.app.movieconsume.api.response;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import tech.march.submission1.api.model.TvData;
+import marchtech.app.movieconsume.api.model.TvData;
+
 
 public class FavoriteFav {
     @SerializedName("page")

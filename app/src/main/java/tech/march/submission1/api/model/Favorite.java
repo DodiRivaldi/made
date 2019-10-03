@@ -1,4 +1,4 @@
-package tech.march.submission1.database.model;
+package tech.march.submission1.api.model;
 
 import android.database.Cursor;
 import android.os.Parcel;

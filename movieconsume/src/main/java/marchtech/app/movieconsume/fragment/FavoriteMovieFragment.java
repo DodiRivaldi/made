@@ -1,4 +1,4 @@
-package tech.march.submission1.fragment.movies;
+package marchtech.app.movieconsume.fragment;
 
 
 import android.content.Context;
@@ -25,15 +25,15 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import tech.march.submission1.R;
-import tech.march.submission1.activity.detail.DetailActivity;
-import tech.march.submission1.adapter.FavoriteAdapter;
-import tech.march.submission1.db.FavoriteData;
-import tech.march.submission1.db.FavoriteHelper;
-import tech.march.submission1.db.LoadFavoriteCallback;
+import marchtech.app.movieconsume.R;
+import marchtech.app.movieconsume.activity.DetailActivity;
+import marchtech.app.movieconsume.adapter.FavMovieAdapter;
+import marchtech.app.movieconsume.db.FavoriteHelper;
+import marchtech.app.movieconsume.db.LoadFavoriteCallback;
+import marchtech.app.movieconsume.model.FavoriteData;
 
-import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.CONTENT_URI;
-import static tech.march.submission1.db.MappingHelper.getMovieFavoriteList;
+import static marchtech.app.movieconsume.db.DatabaseContract.FavoriteColumns.CONTENT_URI;
+import static marchtech.app.movieconsume.db.MappingHelper.getMovieFavoriteList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,7 +43,7 @@ public class FavoriteMovieFragment extends Fragment {
     @BindView(R.id.rvListFav)
     RecyclerView rvMovie;
     private LoadFavoriteCallback callback;
-    private FavoriteAdapter adapter;
+    private FavMovieAdapter adapter;
     private FavoriteHelper helper;
 
 
@@ -118,7 +118,7 @@ public class FavoriteMovieFragment extends Fragment {
         helper = FavoriteHelper.getInstance(getContext());
         helper.open();
 
-        adapter = new FavoriteAdapter(getActivity(), id -> {
+        adapter = new FavMovieAdapter(getActivity(), id -> {
             Intent intent = new Intent(getActivity(), DetailActivity.class);
             intent.putExtra(DetailActivity.MID, id);
             intent.putExtra("type", "favmovie");

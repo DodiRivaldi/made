@@ -1,4 +1,4 @@
-package tech.march.submission1.fragment.movies;
+package marchtech.app.movieconsume.fragment;
 
 
 import android.content.Context;
@@ -25,29 +25,29 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import tech.march.submission1.R;
-import tech.march.submission1.activity.detail.DetailActivity;
-import tech.march.submission1.adapter.FavoriteAdapter;
-import tech.march.submission1.db.FavoriteData;
-import tech.march.submission1.db.FavoriteHelper;
-import tech.march.submission1.db.LoadFavoriteCallback;
+import marchtech.app.movieconsume.R;
+import marchtech.app.movieconsume.activity.DetailActivity;
+import marchtech.app.movieconsume.adapter.FavMovieAdapter;
+import marchtech.app.movieconsume.db.FavoriteHelper;
+import marchtech.app.movieconsume.db.LoadFavoriteCallback;
+import marchtech.app.movieconsume.model.FavoriteData;
 
-import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.CONTENT_URI;
-import static tech.march.submission1.db.MappingHelper.getMovieFavoriteList;
+import static marchtech.app.movieconsume.db.DatabaseContract.FavoriteColumns.CONTENT_URI;
+import static marchtech.app.movieconsume.db.MappingHelper.getTvFavoriteList;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FavoriteMovieFragment extends Fragment {
+public class FavoriteTvFragment extends Fragment {
     private static final String EXTRA_STATE = "EXTRA_STATE";
     @BindView(R.id.rvListFav)
-    RecyclerView rvMovie;
+     RecyclerView rvMovie;
     private LoadFavoriteCallback callback;
-    private FavoriteAdapter adapter;
+    private FavMovieAdapter adapter;
     private FavoriteHelper helper;
 
 
-    public FavoriteMovieFragment() {
+    public FavoriteTvFragment() {
         // Required empty public constructor
     }
 
@@ -68,7 +68,7 @@ public class FavoriteMovieFragment extends Fragment {
         setupView();
 
         if (savedInstanceState == null) {
-            new LoadFavoriteAsync(getContext(), callback).execute();
+            new FavoriteTvFragment.LoadFavoriteAsync(getContext(), callback).execute();
         } else {
             ArrayList<FavoriteData> list = savedInstanceState.getParcelableArrayList(EXTRA_STATE);
             if (list != null) {
@@ -93,7 +93,7 @@ public class FavoriteMovieFragment extends Fragment {
 
             @Override
             public void postExecute(Cursor cursor) {
-                ArrayList<FavoriteData> list = getMovieFavoriteList(cursor);
+                ArrayList<FavoriteData> list = getTvFavoriteList(cursor);
                 if (list.size() > 0) {
                     adapter.setListFavoriteData(list);
                     rvMovie.setVisibility(View.VISIBLE);
@@ -108,9 +108,8 @@ public class FavoriteMovieFragment extends Fragment {
         HandlerThread handlerThread = new HandlerThread("DataObserver");
         handlerThread.start();
         Handler handler = new Handler(handlerThread.getLooper());
-        DataObserver myObserver = new DataObserver(handler, getContext(), callback);
-        Objects.requireNonNull(getActivity()).getContentResolver().registerContentObserver(CONTENT_URI,
-                true, myObserver);
+        FavoriteTvFragment.DataObserver myObserver = new FavoriteTvFragment.DataObserver(handler, getContext(), callback);
+        Objects.requireNonNull(getActivity()).getContentResolver().registerContentObserver(CONTENT_URI, true, myObserver);
 
         rvMovie.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvMovie.setHasFixedSize(true);
@@ -118,10 +117,10 @@ public class FavoriteMovieFragment extends Fragment {
         helper = FavoriteHelper.getInstance(getContext());
         helper.open();
 
-        adapter = new FavoriteAdapter(getActivity(), id -> {
-            Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra(DetailActivity.MID, id);
-            intent.putExtra("type", "favmovie");
+        adapter = new FavMovieAdapter(getActivity(), id -> {
+            Intent intent = new Intent(getContext(), DetailActivity.class);
+            intent.putExtra(DetailActivity.TVID, id);
+            intent.putExtra("type", "favtv");
             startActivity(intent);
         });
 
@@ -172,7 +171,7 @@ public class FavoriteMovieFragment extends Fragment {
         @Override
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
-            new LoadFavoriteAsync(context, callback).execute();
+            new FavoriteTvFragment.LoadFavoriteAsync(context, callback).execute();
 
         }
     }

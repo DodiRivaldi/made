@@ -67,32 +67,31 @@ public class DailyAlarmReceiver extends BroadcastReceiver {
     public void setAlarm(Context context) {
 
 
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, DailyAlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, ID_DAILY, intent, 0);
 
-        /// TIME SET HERE
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 7);
         calendar.set(Calendar.MINUTE,0);
         calendar.set(Calendar.SECOND, 0);
 
-        if (alarmManager != null) {
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        if (alarm != null) {
+            alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
 
     }
 
 
     public void cancelAlarm(Context context) {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, DailyReleaseAlarmReceiver.class);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, ID_DAILY, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         pendingIntent.cancel();
 
-        if (alarmManager != null) {
-            alarmManager.cancel(pendingIntent);
+        if (alarm != null) {
+            alarm.cancel(pendingIntent);
         }
     }
 

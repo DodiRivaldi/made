@@ -19,10 +19,14 @@ public class SettingActivity extends AppCompatActivity implements CompoundButton
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    Switch dailySwitch, releaseSwitch;
-    DailyReleaseAlarmReceiver releaseAlarmReceiver = new DailyReleaseAlarmReceiver();
-    DailyAlarmReceiver dailyAlarmReceiver = new DailyAlarmReceiver();
-    SharedPreferences dailySp, releaseSp;
+    @BindView(R.id.switch_daily)
+    Switch dailySwitch;
+    @BindView(R.id.switch_release)
+    Switch releaseSwitch;
+
+    private DailyReleaseAlarmReceiver releaseAlarmReceiver;
+    private DailyAlarmReceiver dailyAlarmReceiver;
+    private SharedPreferences dailySp, releaseSp;
 
     private String keyDaily, keyRelease;
 
@@ -30,17 +34,17 @@ public class SettingActivity extends AppCompatActivity implements CompoundButton
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        keyDaily = getResources().getString(R.string.key_daily);
-        keyRelease = getResources().getString(R.string.key_release);
-
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        dailySwitch = findViewById(R.id.switch_daily);
-        dailySwitch.setOnCheckedChangeListener(this);
+        keyDaily = getResources().getString(R.string.key_daily);
+        keyRelease = getResources().getString(R.string.key_release);
 
-        releaseSwitch = findViewById(R.id.switch_release);
+        releaseAlarmReceiver = new DailyReleaseAlarmReceiver();
+        dailyAlarmReceiver = new DailyAlarmReceiver();
+
+        dailySwitch.setOnCheckedChangeListener(this);
         releaseSwitch.setOnCheckedChangeListener(this);
 
         dailySp = getSharedPreferences(keyDaily, MODE_PRIVATE);

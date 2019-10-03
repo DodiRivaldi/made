@@ -1,4 +1,4 @@
-package tech.march.submission1.adapter;
+package marchtech.app.movieconsume.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,10 +18,10 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import tech.march.submission1.R;
-import tech.march.submission1.db.FavoriteData;
+import marchtech.app.movieconsume.R;
+import marchtech.app.movieconsume.model.FavoriteData;
 
-import static tech.march.submission1.api.ApiHelper.BASE_IMAGE_URL;
+import static marchtech.app.movieconsume.api.ApiHelper.BASE_IMAGE_URL;
 
 public class FavMovieAdapter extends RecyclerView.Adapter<FavMovieAdapter.ViewHolder> {
     private final ArrayList<FavoriteData> favoriteData = new ArrayList<>();
@@ -87,12 +86,6 @@ public class FavMovieAdapter extends RecyclerView.Adapter<FavMovieAdapter.ViewHo
         ImageView imgPoster;
         @BindView(R.id.tv_title)
         TextView tvTitle;
-        @BindView(R.id.tv_type)
-        TextView tvType;
-        @BindView(R.id.tv_time)
-        TextView tvTime;
-        @BindView(R.id.tv_rate)
-        TextView tvRate;
         PostItemListener postItemListener;
         public ViewHolder(@NonNull View itemView, PostItemListener postItemListener) {
             super(itemView);

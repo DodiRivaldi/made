@@ -27,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.march.submission1.R;
 import tech.march.submission1.activity.detail.DetailActivity;
-import tech.march.submission1.adapter.FavMovieAdapter;
+import tech.march.submission1.adapter.FavoriteAdapter;
 import tech.march.submission1.db.FavoriteData;
 import tech.march.submission1.db.FavoriteHelper;
 import tech.march.submission1.db.LoadFavoriteCallback;
@@ -43,7 +43,7 @@ public class FavoriteTvFragment  extends Fragment {
     @BindView(R.id.rvListFav)
      RecyclerView rvMovie;
     private LoadFavoriteCallback callback;
-    private FavMovieAdapter adapter;
+    private FavoriteAdapter adapter;
     private FavoriteHelper helper;
 
 
@@ -117,7 +117,7 @@ public class FavoriteTvFragment  extends Fragment {
         helper = FavoriteHelper.getInstance(getContext());
         helper.open();
 
-        adapter = new FavMovieAdapter(getActivity(), id -> {
+        adapter = new FavoriteAdapter(getActivity(), id -> {
             Intent intent = new Intent(getContext(), DetailActivity.class);
             intent.putExtra(DetailActivity.TVID, id);
             intent.putExtra("type", "favtv");

@@ -25,4 +25,7 @@
     <string name="daily">Pengingat harian</string>
     <string name="setting">Pengaturan Alarm</string>
 
+    <string name="deletefav">Favorit dihapus</string>
+    <string name="failed">Gagal</string>
+    <string name="notfound">Tidak ada data</string>
 </resources>

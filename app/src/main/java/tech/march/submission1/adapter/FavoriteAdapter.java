@@ -1,6 +1,7 @@
 package tech.march.submission1.adapter;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,45 +11,77 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.march.submission1.R;
-import tech.march.submission1.activity.detail.DetailActivity;
-import tech.march.submission1.api.ApiHelper;
-import tech.march.submission1.api.model.TvShow;
-import tech.march.submission1.database.model.Favorite;
+import tech.march.submission1.db.FavoriteData;
+
+import static tech.march.submission1.api.ApiHelper.BASE_IMAGE_URL;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHolder> {
-    private ArrayList<Favorite> arrayList = new ArrayList<>();
+    private final ArrayList<FavoriteData> favoriteData = new ArrayList<>();
+    private final Activity activity;
+    private final PostItemListener postItemListener;
 
-    public void setupData(ArrayList<Favorite> items) {
-        arrayList.clear();
-        arrayList.addAll(items);
+
+    public FavoriteAdapter(Activity activity, PostItemListener postItemListener) {
+        this.activity = activity;
+        this.postItemListener = postItemListener;
+    }
+
+    public ArrayList<FavoriteData> getFavoriteData() {
+        return favoriteData;
+    }
+
+    public void setListFavoriteData(ArrayList<FavoriteData> listFavoriteData) {
+        if (listFavoriteData.size() > 0) {
+            favoriteData.clear();
+        }
+        favoriteData.addAll(listFavoriteData);
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie, parent, false);
-        return new ViewHolder(view);
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View postView = inflater.inflate(R.layout.item_movie, parent, false);
+        return new ViewHolder(postView, this.postItemListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(arrayList.get(position));
+        FavoriteData favoriteDatas = favoriteData.get(position);
+
+        holder.tvTitle.setText(favoriteDatas.getTitle());
+
+        Glide.with(activity)
+                .load(BASE_IMAGE_URL +"original/"+ favoriteDatas.getPoster())
+                .transform(new RoundedCorners(45))
+                .into(holder.imgPoster);
     }
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        return favoriteData.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    public interface PostItemListener {
+        void onPostClick(int mId);
+    }
+
+    private FavoriteData getItem(int adapterPosition) {
+        return favoriteData.get(adapterPosition);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @BindView(R.id.img_poster)
         ImageView imgPoster;
         @BindView(R.id.tv_title)
@@ -59,29 +92,23 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
         TextView tvTime;
         @BindView(R.id.tv_rate)
         TextView tvRate;
-        String ids;
-
-        ViewHolder(@NonNull View itemView) {
+        PostItemListener postItemListener;
+        public ViewHolder(@NonNull View itemView, PostItemListener postItemListener) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
-        }
 
-        void bind(Favorite item) {
-            Picasso.get().load(ApiHelper.BASE_IMAGE_URL + "w780" + item.getImage()).into(imgPoster);
-            tvTime.setText(item.getDate());
-            tvTitle.setText(item.getTitle());
-            tvType.setText(item.getArtist());
-            ids = item.getID();
+
+            ButterKnife.bind(this,itemView);
+
+            this.postItemListener = postItemListener;
+            itemView.setOnClickListener(this);
+
         }
 
         @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
-            //   intent.putExtra(DetailActivity.EXTRA_DATA_FAV, arrayList.get(getAdapterPosition()));
-            intent.putExtra("type", "fav");
-            intent.putExtra("id", ids);
-            itemView.getContext().startActivity(intent);
+        public void onClick(View view) {
+            FavoriteData item = getItem(getAdapterPosition());
+            this.postItemListener.onPostClick(item.getmId());
+            notifyDataSetChanged();
         }
     }
 }

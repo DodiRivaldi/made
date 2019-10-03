@@ -1,4 +1,4 @@
-package tech.march.submission1.api;
+package marchtech.app.movieconsume.api;
 
 import android.util.Log;
 
@@ -13,17 +13,15 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
+import marchtech.app.movieconsume.api.model.Movie;
+import marchtech.app.movieconsume.api.model.TvData;
+import marchtech.app.movieconsume.api.model.TvShow;
+import marchtech.app.movieconsume.api.response.MovieFav;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import tech.march.submission1.api.model.Movie;
-import tech.march.submission1.api.model.TvData;
-import tech.march.submission1.api.model.TvShow;
-import tech.march.submission1.api.response.MovieFav;
-
 public class ApiRequest extends ViewModel {
     private static final ApiInterface apiInterface = new ApiHelper().getApi();
     private MutableLiveData<ArrayList<Movie>> movies = new MutableLiveData<>();

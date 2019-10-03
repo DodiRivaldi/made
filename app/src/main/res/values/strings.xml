@@ -27,4 +27,5 @@
     <string name="setting">Alarm Settings</string>
     <string name="deletefav">Deleted fav</string>
     <string name="failed">Failed</string>
+    <string name="notfound">not found</string>
 </resources>

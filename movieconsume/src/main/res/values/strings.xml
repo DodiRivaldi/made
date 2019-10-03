@@ -1,3 +1,30 @@
 <resources>
-    <string name="app_name">MovieConsume</string>
+    <string name="app_name">Movie Consume</string>
+    <string name="extra_data">extra_data</string>
+    <string name="extra_data_tv">extra_data_tv</string>
+    <string name="extra_data_fav">extra_data_fav</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="movies">Movies</string>
+    <string name="tvshow">TV Show</string>
+    <string name="change_language_settings">Change languange settings</string>
+    <string name="waiting">Please wait...</string>
+    <string name="favorite">Favorite</string>
+    <string name="hapus">Delete</string>
+    <string name="deletedata">Deleted</string>
+    <string name="saved">Saved</string>
+    <string name="search">Search</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="empty_text">Empty</string>
+    <string name="alarm_daily">MovieApp missing you</string>
+    <string name="no_data">No data</string>
+    <string name="rilis">release</string>
+    <string name="release">Release reminder</string>
+    <string name="daily">Daily reminder</string>
+    <string name="key_daily">key_daily</string>
+    <string name="key_release">key_release</string>
+    <string name="setting">Alarm Settings</string>
+    <string name="deletefav">Deleted fav</string>
+    <string name="failed">Failed</string>
 </resources>
