@@ -11,16 +11,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "dbfavorite";
     private static final int DATABASE_VERSION = 1;
     public static final String SQL_CREATE_TABLE = String.format("CREATE TABLE %s"
-            + " (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-            " %s TEXT NOT NULL," +
+            + " (%s INTEGER PRIMARY KEY ," +
+           // " %s TEXT NOT NULL," +
             " %s TEXT NOT NULL," +
             " %s TEXT NOT NULL," +
             " %s TEXT NOT NULL," +
             " %s TEXT NOT NULL," +
             "%s TEXT NOT NULL)",
             TABLE_NAME,
-            DatabaseContract.FavoriteColumns._ID,
             DatabaseContract.FavoriteColumns.ID,
+         //   DatabaseContract.FavoriteColumns.ID,
             DatabaseContract.FavoriteColumns.TITLE,
             DatabaseContract.FavoriteColumns.POSTER,
             DatabaseContract.FavoriteColumns.OVERVIEW,

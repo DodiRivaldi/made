@@ -144,7 +144,7 @@ public class DetailActivity extends AppCompatActivity {
                 favoriteData.setCategory("movie");
 
                 ContentValues values = new ContentValues();
-                values.put(ID, m.getId());
+                values.put(ID,mId);
                 values.put(TITLE, m.getTitle());
                 values.put(OVERVIEW, m.getOverview());
                 values.put(POSTER, m.getPoster_path());
@@ -182,7 +182,7 @@ public class DetailActivity extends AppCompatActivity {
                     startActivity(new Intent(DetailActivity.this, FavoriteActivity.class));
                     finish();
                 } else {
-                    Toast.makeText(DetailActivity.this, "F Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailActivity.this, "Cannot Deleted", Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -197,8 +197,7 @@ public class DetailActivity extends AppCompatActivity {
             request = ViewModelProviders.of(this).get(ApiRequest.class);
             request.getTvFav().observe(this, getTv);
 
-            Toast.makeText(this, String.valueOf(TV_ID), Toast.LENGTH_SHORT).show();
-            request.setTv(TV_ID);
+             request.setTv(TV_ID);
 
             btnFav.setText(R.string.deletefav);
 
