@@ -7,7 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static android.provider.BaseColumns._ID;
 import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.ID;
 import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.TABLE_NAME;
 

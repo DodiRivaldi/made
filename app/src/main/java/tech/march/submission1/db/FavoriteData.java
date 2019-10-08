@@ -4,7 +4,6 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import static android.provider.BaseColumns._ID;
 import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.CATEGORY;
 import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.ID;
 import static tech.march.submission1.db.DatabaseContract.FavoriteColumns.OVERVIEW;
@@ -121,7 +120,7 @@ public class FavoriteData implements Parcelable {
     }
 
     public FavoriteData(Cursor cursor) {
-        this.id = getColumnInt(cursor, _ID);
+       this.id = getColumnInt(cursor, ID);
         this.mId = getColumnInt(cursor, ID);
         this.title = getColumnString(cursor, TITLE);
         this.rating = getColumnDouble(cursor, RATING);

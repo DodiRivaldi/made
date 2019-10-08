@@ -173,16 +173,16 @@ public class DetailActivity extends AppCompatActivity {
             btnFav.setText(R.string.deletefav);
 
             btnFav.setOnClickListener((View v) -> {
-                if (isFavorite()) {
-                    Uri uri = Uri.parse(CONTENT_URI + "/" + id);
+           //     if (isFavorite()) {
+                    Uri uri = Uri.parse(CONTENT_URI + "/" + mId);
                     getContentResolver().delete(uri, null, null);
                     Toast.makeText(DetailActivity.this, "Favorite Deleted", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(DetailActivity.this, MainActivity.class));
                     finish();
-                } else {
+              /*  } else {
                     Toast.makeText(DetailActivity.this, "F Deleted", Toast.LENGTH_SHORT).show();
 
-                }
+                }*/
             });
         } else if (type.equals("favtv")) {
 
@@ -199,16 +199,16 @@ public class DetailActivity extends AppCompatActivity {
             btnFav.setText(R.string.deletefav);
 
             btnFav.setOnClickListener((View v) -> {
-                if (isFavorite()) {
-                    Uri uri = Uri.parse(CONTENT_URI + "/" + id);
+         //       if (isFavorite()) {
+                    Uri uri = Uri.parse(CONTENT_URI + "/" + mId);
                     getContentResolver().delete(uri, null, null);
                     Toast.makeText(DetailActivity.this, "Favorite Deleted", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(DetailActivity.this, MainActivity.class));
                     finish();
-                } else {
+          /*      } else {
                     Toast.makeText(DetailActivity.this, "Cannot delete", Toast.LENGTH_SHORT).show();
 
-                }
+                }*/
             });
         }
     }

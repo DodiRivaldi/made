@@ -69,7 +69,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             Picasso.get().load(ApiHelper.BASE_IMAGE_URL+"w780" + movie.getPoster_path()).into(imgPoster);
             tvTime.setText(movie.getRelease_date());
             tvTitle.setText(movie.getTitle());
-            tvType.setText(movie.getVoteAverage()+"-"+movie.getId());
+            tvType.setText(movie.getVoteAverage());
         }
 
         @Override

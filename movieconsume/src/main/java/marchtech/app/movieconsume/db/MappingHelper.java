@@ -20,7 +20,7 @@ public class MappingHelper {
         ArrayList<FavoriteData> list = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            int id = cursor.getInt(cursor.getColumnIndexOrThrow(_ID));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(ID));
             int mId = cursor.getInt(cursor.getColumnIndexOrThrow(ID));
             String title = cursor.getString(cursor.getColumnIndexOrThrow(TITLE));
             String overview = cursor.getString(cursor.getColumnIndexOrThrow(OVERVIEW));
@@ -39,7 +39,7 @@ public class MappingHelper {
         ArrayList<FavoriteData> list = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            int id = cursor.getInt(cursor.getColumnIndexOrThrow(_ID));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(ID));
             int mId = cursor.getInt(cursor.getColumnIndexOrThrow(ID));
             String title = cursor.getString(cursor.getColumnIndexOrThrow(TITLE));
             String overview = cursor.getString(cursor.getColumnIndexOrThrow(OVERVIEW));
